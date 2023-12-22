@@ -11,19 +11,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var getExampleInstance = container.InjectInboundAdapter[container.Adapter](func() container.Adapter {
-	return func() error {
-		instance := getExampleController{
-			echo:    server.Echo,
-			example: business.Example,
-		}
-		instance.echo.GET("api/pattern", instance.handle)
-		return nil
+var getExampleInstance = container.InjectInboundAdapter(func() (getExampleController, error) {
+	instance := getExampleController{
+		echo:    server.Echo,
+		example: business.Example,
+		pattern: "/api/pattern",
 	}
+	instance.echo.GET(instance.pattern, instance.handle)
+	return instance, nil
 })
 
 type getExampleController struct {
 	echo    *echo.Echo
+	pattern string
 	example in.Example
 }
 

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	for _, v := range container.InboundAdapterContainer {
-		v.Dependency.Load()
+		v.Load()
 	}
 	server.StartHTTPServer()
 }
