@@ -2,10 +2,8 @@ package container
 
 import (
 	"errors"
-	"log/slog"
 
 	"github.com/google/uuid"
-	"github.com/joho/godotenv"
 )
 
 type Container[T any] struct {
@@ -46,17 +44,28 @@ func InjectBusiness[T any](loadableDependency func() (T, error)) *Container[T] {
 
 var InboundAdapters = make(map[string]Loadable[any])
 
-func InjectInboundAdapter[T any](loadableDependency func() (T, error)) Loadable[T] {
+func InjectInboundAdapter[T any](loadableDependency func() (T, error)) *Container[T] {
 	adapter := Container[T]{loadableDependency: loadableDependency}
 	InboundAdapters[uuid.NewString()] = &adapter
 	return &adapter
 }
 
+var OutBoundAdapters = make(map[string]Loadable[any])
+
+func InjectOutBoundAdapter[T any](loadableDependency func() (T, error)) *Container[T] {
+	adapter := Container[T]{loadableDependency: loadableDependency}
+	OutBoundAdapters[uuid.NewString()] = &adapter
+	return &adapter
+}
+
 func LoadDependencies() error {
-	if err := godotenv.Load(); err != nil {
-		slog.Warn(".env file not found getting environments from system")
-	}
 	for _, v := range Installations {
+		_, err := v.Load()
+		if err != nil {
+			return err
+		}
+	}
+	for _, v := range OutBoundAdapters {
 		_, err := v.Load()
 		if err != nil {
 			return err
