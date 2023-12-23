@@ -18,7 +18,7 @@ import (
 
 var pullExampleSetup = container.InjectInboundAdapter(func() (pullExampleSubscription, error) {
 	instance := pullExampleSubscription{
-		ExampleUseCase: business.Example,
+		ExampleUseCase: business.Example.Dependency,
 	}
 	var subscriptionName = "INSERT YOUR SUBSCRIPTION NAME"
 	subRef := broker.Client().Subscription(subscriptionName)

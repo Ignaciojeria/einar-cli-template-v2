@@ -8,11 +8,11 @@ import (
 	"einar/app/domain/port/in"
 )
 
-var Example = container.InjectUseCase[in.Example](func() in.Example {
+var Example = container.InjectBusiness[in.Example](func() (in.Example, error) {
 	instance := exampleUsecase{
-		Hello: Other,
+		Hello: Other.Dependency,
 	}
-	return instance.run
+	return instance.run, nil
 })
 
 type exampleUsecase struct {

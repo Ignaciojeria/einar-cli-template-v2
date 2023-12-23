@@ -18,6 +18,9 @@ func main() {
 	for _, v := range container.Installations {
 		v.Load()
 	}
+	for _, v := range container.Business {
+		v.Load()
+	}
 	for _, v := range container.InboundAdapters {
 		v.Load()
 	}

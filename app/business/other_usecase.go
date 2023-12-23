@@ -7,9 +7,9 @@ import (
 	"einar/app/shared/container"
 )
 
-var Other = container.InjectUseCase[in.Other](func() in.Other {
+var Other = container.InjectBusiness[in.Other](func() (in.Other, error) {
 	instance := exampleOther{}
-	return instance.run
+	return instance.run, nil
 })
 
 type exampleOther struct {

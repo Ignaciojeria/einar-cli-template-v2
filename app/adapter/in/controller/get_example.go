@@ -14,7 +14,7 @@ import (
 var getExampleInstance = container.InjectInboundAdapter(func() (getExampleController, error) {
 	instance := getExampleController{
 		echo:    server.Echo(),
-		example: business.Example,
+		example: business.Example.Dependency,
 		pattern: "/api/pattern",
 	}
 	instance.echo.GET(instance.pattern, instance.handle)
