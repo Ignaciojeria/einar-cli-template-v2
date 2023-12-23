@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"einar/app/business"
+	"einar/app/domain"
 	"einar/app/domain/port/in"
 	"einar/app/infrastructure/broker"
 	"einar/app/infrastructure/broker/subscription"
@@ -38,11 +39,12 @@ var pullExampleSetup = container.InjectInboundAdapter(func() (pullExampleSubscri
 func (p pullExampleSubscription) pull(ctx context.Context, subscriptionName string, m *pubsub.Message) (statusCode int, err error) {
 	var dataModel interface{}
 	defer func() {
-		subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+		statusCode = subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
 			MessageID:        m.ID,
 			PublishTime:      m.PublishTime.String(),
 			SubscriptionName: subscriptionName,
 			Error:            err,
+			StatusCode:       statusCode,
 			Message:          m,
 			ErrorsRequiringNack: []error{
 				errors.INTERNAL_SERVER_ERROR,
@@ -55,8 +57,13 @@ func (p pullExampleSubscription) pull(ctx context.Context, subscriptionName stri
 			},
 		})
 	}()
+
 	if err := json.Unmarshal(m.Data, &dataModel); err != nil {
 		return http.StatusBadRequest, err
 	}
-	return http.StatusOK, nil
+
+	if _, err := p.ExampleUseCase(ctx, domain.Example{}); err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return statusCode, nil
 }

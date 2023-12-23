@@ -74,11 +74,19 @@ func (s Subscription) receive(ctx context.Context, m *pubsub.Message) {
 func (s Subscription) pushHandler(c echo.Context) error {
 	googleChannel := c.Request().Header.Get("X-Goog-Channel-ID")
 
+	var msg pubsub.Message
+
+	msg.Attributes = map[string]string{
+		constants.EventChannel: constants.Other,
+		constants.EventType:    c.Request().Header.Get(constants.EventType),
+		constants.EntityType:   c.Request().Header.Get(constants.EntityType),
+	}
 	if googleChannel != "" {
-		var msg pubsub.Message
+		msg.Attributes[constants.EventChannel] = constants.GoogleCloud
 		if err := c.Bind(&msg); err != nil {
 			return c.String(http.StatusNoContent, "error binding Pub/Sub message")
 		}
+
 		statusCode, err := s.processMessage(c.Request().Context(), s.subscriptionName, &msg)
 		if statusCode >= 500 && statusCode <= 599 {
 			return c.String(statusCode, "")
@@ -90,11 +98,7 @@ func (s Subscription) pushHandler(c echo.Context) error {
 	}
 
 	if googleChannel == "" {
-		var msg pubsub.Message
-		msg.Attributes = map[string]string{
-			constants.EventType:  c.Request().Header.Get(constants.EventType),
-			constants.EntityType: c.Request().Header.Get(constants.EntityType),
-		}
+		msg.Attributes[constants.EventChannel] = constants.Other
 		body, err := io.ReadAll(c.Request().Body)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "error reading request body")

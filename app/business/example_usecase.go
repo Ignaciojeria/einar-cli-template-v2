@@ -20,7 +20,7 @@ type exampleUsecase struct {
 	Hello        in.Other
 }
 
-func (u exampleUsecase) run(ctx context.Context, e domain.Example) string {
+func (u exampleUsecase) run(ctx context.Context, e domain.Example) (string, error) {
 	u.Hello(ctx, e)
-	return "hello :D"
+	return "hello :D", nil
 }

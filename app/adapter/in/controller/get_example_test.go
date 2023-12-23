@@ -26,13 +26,12 @@ func TestGetExampleControllerHandle(t *testing.T) {
 
 	// Mock de Echo y Example
 	e := echo.New()
-	var mockExample in.Example = func(ctx context.Context, e domain.Example) string {
-		return "Hello mom"
+	var mockExample in.Example = func(ctx context.Context, e domain.Example) (string, error) {
+		return "Hello mom", nil
 	}
 
 	// Crear instancia del controlador con mock
 	controller = getExampleController{
-		echo:    e,
 		example: mockExample,
 		pattern: pattern,
 	}

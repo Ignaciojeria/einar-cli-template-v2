@@ -11,4 +11,10 @@ const EventType = "eventType"
 const EntityType = "entityType"
 const DefaultPushHandlerPrefix = "/subscription/"
 
+const (
+	EventChannel = "eventChannel"
+	GoogleCloud  = "googleCloud"
+	Other        = "other"
+)
+
 const TopicName = "topicName"

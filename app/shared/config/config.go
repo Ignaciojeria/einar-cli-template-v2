@@ -5,8 +5,6 @@ import (
 	"log/slog"
 	"os"
 	"sync"
-
-	"github.com/joho/godotenv"
 )
 
 var env sync.Map
@@ -97,11 +95,6 @@ var Installations = archetypeConfiguration{
 func Setup() error {
 	errs := []string{}
 
-	if err := godotenv.Load(); err != nil {
-		slog.Warn(".env file not found getting environments from system")
-		Installations.EnableSecretManager = true
-	}
-
 	ddService := DD_SERVICE.Get()
 	ddEnv := DD_ENV.Get()
 	ddVersion := DD_VERSION.Get()
@@ -134,7 +127,7 @@ func Setup() error {
 	}
 
 	if PORT.Get() == "" {
-		Set("PORT","8080")
+		Set("PORT", "8080")
 	}
 
 	for _, envVar := range requiredEnvVars {
