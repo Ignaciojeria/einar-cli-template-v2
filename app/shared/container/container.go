@@ -1,6 +1,7 @@
 package container
 
 import (
+	"errors"
 	"log/slog"
 
 	"github.com/google/uuid"
@@ -8,15 +9,18 @@ import (
 )
 
 type Container[T any] struct {
-	loadableContent func() (T, error)
-	Dependency      T
-	Err             error
+	loadableDependency func() (T, error)
+	isLoaded           bool
+	Dependency         T
 }
 
 func (c *Container[T]) Load() (any, error) {
-	instance, err := c.loadableContent()
+	if c.isLoaded {
+		return nil, errors.New("dependency already loaded")
+	}
+	instance, err := c.loadableDependency()
 	c.Dependency = instance
-	c.Err = err
+	c.isLoaded = true
 	return instance, err
 }
 
@@ -26,24 +30,24 @@ type Loadable[T any] interface {
 
 var Installations = make(map[string]Loadable[any])
 
-func InjectInstallation[T any](loadableContent func() (T, error)) *Container[T] {
-	adapter := Container[T]{loadableContent: loadableContent}
+func InjectInstallation[T any](loadableDependency func() (T, error)) *Container[T] {
+	adapter := Container[T]{loadableDependency: loadableDependency}
 	Installations[uuid.NewString()] = &adapter
 	return &adapter
 }
 
 var Business = make(map[string]Loadable[any])
 
-func InjectBusiness[T any](loadableContent func() (T, error)) *Container[T] {
-	adapter := Container[T]{loadableContent: loadableContent}
+func InjectBusiness[T any](loadableDependency func() (T, error)) *Container[T] {
+	adapter := Container[T]{loadableDependency: loadableDependency}
 	Business[uuid.NewString()] = &adapter
 	return &adapter
 }
 
 var InboundAdapters = make(map[string]Loadable[any])
 
-func InjectInboundAdapter[T any](loadableContent func() (T, error)) Loadable[T] {
-	adapter := Container[T]{loadableContent: loadableContent}
+func InjectInboundAdapter[T any](loadableDependency func() (T, error)) Loadable[T] {
+	adapter := Container[T]{loadableDependency: loadableDependency}
 	InboundAdapters[uuid.NewString()] = &adapter
 	return &adapter
 }
