@@ -1,7 +1,7 @@
 package server
 
 import (
-	"einar/app/container"
+	"einar/app/shared/container"
 	"fmt"
 	"log"
 	"sync"
@@ -11,17 +11,21 @@ import (
 
 type startHTTPServer func() error
 
-var Echo = container.InjectInstallation[*echo.Echo](func() *echo.Echo {
-	return echo.New()
+var c = container.InjectInstallation[*echo.Echo](func() (*echo.Echo, error) {
+	return echo.New(), nil
 })
 
 var once sync.Once
 var StartHTTPServer = func() {
-	for _, route := range Echo.Routes() {
+	for _, route := range Echo().Routes() {
 		fmt.Printf("Method: %v, Path: %v, Name: %v\n", route.Method, route.Path, route.Name)
 	}
-	err := Echo.Start(":" + "8080")
+	err := Echo().Start(":" + "8080")
 	if err != nil {
 		log.Panic(err)
 	}
+}
+
+func Echo() *echo.Echo {
+	return c.Dependency
 }

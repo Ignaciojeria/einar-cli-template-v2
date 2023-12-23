@@ -2,9 +2,9 @@ package business
 
 import (
 	"context"
-	"einar/app/container"
 	"einar/app/domain"
 	"einar/app/domain/port/in"
+	"einar/app/shared/container"
 )
 
 var Other = container.InjectUseCase[in.Other](func() in.Other {

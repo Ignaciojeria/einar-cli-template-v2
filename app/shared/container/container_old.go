@@ -29,11 +29,12 @@ func InjectUseCase[T any](t Dependency[T]) T {
 	return t()
 }
 
-func InjectInstallation[T any](t Dependency[T]) T {
-	InstallationContainer[uuid.NewString()] = DependencyContainer[any]{Dependency: t()}
-	return t()
-}
-
+/*
+	func InjectInstallation[T any](t Dependency[T]) T {
+		InstallationContainer[uuid.NewString()] = DependencyContainer[any]{Dependency: t()}
+		return t()
+	}
+*/
 func InjectHTTPServer[T any](t Dependency[T]) T {
 	HTTPServerContainer[uuid.NewString()] = DependencyContainer[any]{Dependency: t()}
 	return t()

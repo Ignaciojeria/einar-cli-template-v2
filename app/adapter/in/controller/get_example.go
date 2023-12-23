@@ -2,10 +2,10 @@ package controller
 
 import (
 	"einar/app/business"
-	"einar/app/container"
 	"einar/app/domain"
 	"einar/app/domain/port/in"
 	"einar/app/infrastructure/server"
+	"einar/app/shared/container"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -13,7 +13,7 @@ import (
 
 var getExampleInstance = container.InjectInboundAdapter(func() (getExampleController, error) {
 	instance := getExampleController{
-		echo:    server.Echo,
+		echo:    server.Echo(),
 		example: business.Example,
 		pattern: "/api/pattern",
 	}
