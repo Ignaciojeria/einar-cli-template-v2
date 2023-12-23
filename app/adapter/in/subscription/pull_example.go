@@ -16,6 +16,10 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
+type pullExampleSubscription struct {
+	ExampleUseCase in.Example
+}
+
 var pullExampleSetup = container.InjectInboundAdapter(func() (pullExampleSubscription, error) {
 	instance := pullExampleSubscription{
 		ExampleUseCase: business.Example.Dependency,
@@ -30,10 +34,6 @@ var pullExampleSetup = container.InjectInboundAdapter(func() (pullExampleSubscri
 		Start()
 	return instance, nil
 })
-
-type pullExampleSubscription struct {
-	ExampleUseCase in.Example
-}
 
 func (p pullExampleSubscription) pull(ctx context.Context, subscriptionName string, m *pubsub.Message) (statusCode int, err error) {
 	var dataModel interface{}

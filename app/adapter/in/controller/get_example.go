@@ -11,6 +11,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type getExampleController struct {
+	echo    *echo.Echo
+	pattern string
+	example in.Example
+}
+
 var getExampleInstance = container.InjectInboundAdapter(func() (getExampleController, error) {
 	instance := getExampleController{
 		echo:    server.Echo(),
@@ -20,12 +26,6 @@ var getExampleInstance = container.InjectInboundAdapter(func() (getExampleContro
 	instance.echo.GET(instance.pattern, instance.handle)
 	return instance, nil
 })
-
-type getExampleController struct {
-	echo    *echo.Echo
-	pattern string
-	example in.Example
-}
 
 func (u getExampleController) handle(c echo.Context) error {
 	exampleResponse := u.example(c.Request().Context(), domain.Example{})
