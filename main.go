@@ -1,23 +1,17 @@
 package main
 
 import (
-	_ "einar/app/adapter/in/controller"
-	_ "einar/app/adapter/in/subscription"
-	"einar/app/infrastructure/server"
-	"einar/app/shared/container"
-	"os"
+	_ "archetype/app/adapter/in/controller"
+	"archetype/app/infrastructure/server"
+	"log"
 
-	"log/slog"
-
-	"github.com/joho/godotenv"
+	ioc "github.com/Ignaciojeria/einar-ioc"
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		slog.Warn(".env file not found getting environments from system")
+	if err := ioc.LoadDependencies(); err != nil {
+		log.Fatal(err)
 	}
-	if err := container.LoadDependencies(); err != nil {
-		os.Exit(0)
-	}
-	server.StartHTTPServer()
+	s, _ := ioc.Get(server.NewServer)
+	s.(server.Server).Start()
 }

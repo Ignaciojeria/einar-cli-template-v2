@@ -1,0 +1,28 @@
+{
+    "base_template": {
+       "folders": [
+            {
+                "source_dir": "app/configuration",
+                "destination_dir": "app/configuration"
+            },
+            {
+                "source_dir": "app/infrastructure/server",
+                "destination_dir": "app/infrastructure/server"
+            }
+        ],
+        "files": [
+            {
+                "source_file": "main.go",
+                "destination_file": "main.go"
+            },
+            {
+                "source_file": ".env",
+                "destination_file": ".env"
+            },
+            {
+                "source_file": ".gitignore",
+                "destination_file": ".gitignore"
+            }
+        ]
+    }
+}

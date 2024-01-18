@@ -1,38 +1,39 @@
 package server
 
 import (
-	"einar/app/shared/config"
-	"einar/app/shared/container"
+	"archetype/app/configuration"
 	"fmt"
-	"log"
-	"sync"
 
+	ioc "github.com/Ignaciojeria/einar-ioc"
 	"github.com/labstack/echo/v4"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
 )
 
-type startHTTPServer func() error
+var _ = ioc.Registry(NewServer, configuration.NewConf)
 
-var c = container.InjectInstallation[*echo.Echo](func() (*echo.Echo, error) {
+type Server struct {
+	c configuration.Conf
+	e *echo.Echo
+}
+
+func NewServer(c configuration.Conf) Server {
 	e := echo.New()
-	e.Use(otelecho.Middleware(config.PROJECT_NAME.Get() + "-http-server"))
-	return e, nil
-})
-
-var once sync.Once
-var StartHTTPServer = func() {
-	for _, route := range Echo().Routes() {
-		fmt.Printf("Method: %v, Path: %v, Name: %v\n", route.Method, route.Path, route.Name)
-	}
-	err := Echo().Start(":" + "8080")
-	if err != nil {
-		log.Panic(err)
+	return Server{
+		e: e,
+		c: c,
 	}
 }
 
-func Echo() *echo.Echo {
-	if c.Dependency == nil {
-		return echo.New()
+func (s Server) Start() {
+	s.printRoutes()
+	s.e.Start(":" + s.c.Port)
+}
+
+func (s Server) printRoutes() {
+	for _, route := range s.e.Routes() {
+		fmt.Printf("Method: %v, Path: %v, Name: %v\n", route.Method, route.Path, route.Name)
 	}
-	return c.Dependency
+}
+
+func (s Server) Router() *echo.Echo {
+	return s.e
 }
