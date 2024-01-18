@@ -22,6 +22,10 @@
             {
                 "source_file": ".gitignore",
                 "destination_file": ".gitignore"
+            },
+            {
+                "source_file": ".einar.cli.json",
+                "destination_file": ".einar.cli.json"
             }
         ]
     }
