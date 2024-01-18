@@ -16,7 +16,7 @@
                 "destination_file": "main.go"
             },
             {
-                "source_file": ".env",
+                "source_file": ".environment",
                 "destination_file": ".env"
             },
             {
