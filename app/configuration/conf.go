@@ -27,7 +27,7 @@ func NewConf() (Conf, error) {
 		conf.ApiPrefix = "/api/"
 	}
 	if conf.Port == "" {
-		conf.ApiPrefix = "8080"
+		conf.Port = "8080"
 	}
 	return conf, nil
 }
