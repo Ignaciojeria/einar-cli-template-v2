@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "archetype/app/adapter/in/controller"
 	"archetype/app/infrastructure/server"
 	"log"
 
