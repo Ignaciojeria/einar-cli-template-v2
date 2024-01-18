@@ -1,4 +1,18 @@
 {
+    "installations_base": [
+        {
+            "name":"godotenv",
+            "library": "github.com/joho/godotenv"
+        },
+        {
+            "name":"einar-ioc",
+            "library": "github.com/Ignaciojeria/einar-ioc@v1.6.0"
+        },
+        {
+            "name":"echo",
+            "library": "github.com/labstack/echo/v4"
+        }
+    ],
     "base_template": {
        "folders": [
             {
