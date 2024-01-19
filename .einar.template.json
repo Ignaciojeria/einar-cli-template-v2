@@ -55,7 +55,7 @@
                 "ioc_discovery":true,
                 "replace_holders": [
                     {
-                        "kind":"camelCase",
+                        "kind":"PascalCase",
                         "name": "newGetController",
                         "append_at_start":"new",
                         "append_at_end":""
