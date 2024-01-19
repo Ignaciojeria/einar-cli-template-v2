@@ -42,5 +42,26 @@
                 "destination_file": ".einar.cli.json"
             }
         ]
-    }
+    },    
+    "component_commands":[
+        {
+            "kind":"get-controller",
+            "adapter_type":"inbound",
+            "command":"einar generate get-controller ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/adapter/in/controller/get_controller.go",
+                "destination_dir": "app/adapter/in/controller",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "getController",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        }
+    ]
 }
