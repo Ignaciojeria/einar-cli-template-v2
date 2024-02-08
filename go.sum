@@ -1,5 +1,7 @@
 github.com/Ignaciojeria/einar-ioc v1.6.0 h1:lf1w4O+wnQihP+6E5GxWdnBdgDtJHNDYkxVLe4dsEPQ=
 github.com/Ignaciojeria/einar-ioc v1.6.0/go.mod h1:PK1cQXnSEttRHHDo1hWgKGql+DENcvrBEsEnmoF3iVg=
+github.com/Ignaciojeria/einar-ioc v1.7.0 h1:3I/iy+qwZu5Rg3V37L/QyLiPMPetOGKNGwEF5Y0W6Dg=
+github.com/Ignaciojeria/einar-ioc v1.7.0/go.mod h1:PK1cQXnSEttRHHDo1hWgKGql+DENcvrBEsEnmoF3iVg=
 github.com/emirpasic/gods v1.18.1 h1:FXtiHYKDGKCW2KzwZKx0iC0PQmdlorYgdFG9jPXJ1Bc=
 github.com/emirpasic/gods v1.18.1/go.mod h1:8tpGGwCnJ5H4r6BWwaV6OrWmMoPhUl5jm/FMNAnJvWQ=
 github.com/go-test/deep v1.1.0/go.mod h1:5C2ZWiW0ErCdrYzpqxLbTX7MG14M9iiw8DgHncVwcsE=
