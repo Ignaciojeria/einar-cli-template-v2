@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"archetype/app/configuration"
 	"archetype/app/infrastructure/server"
 	"net/http"
 
@@ -11,20 +10,13 @@ import (
 
 var _ = ioc.Registry(
 	newGetController,
-	server.NewServer,
-	configuration.NewConf)
+	server.NewServer)
 
-type getController struct {
-	s server.Server
-}
+type getController struct{}
 
-func newGetController(
-	s server.Server,
-	c configuration.Conf) getController {
-	controller := getController{
-		s: s,
-	}
-	controller.s.Router().GET(c.ApiPrefix+"insert_your_pattern", controller.handle)
+func newGetController(s server.Server) getController {
+	controller := getController{}
+	s.Router().GET(s.ApiPrefix()+"insert_your_pattern", controller.handle)
 	return controller
 }
 

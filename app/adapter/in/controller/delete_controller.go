@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"archetype/app/configuration"
 	"archetype/app/infrastructure/server"
 	"net/http"
 
@@ -11,20 +10,13 @@ import (
 
 var _ = ioc.Registry(
 	newDeleteController,
-	server.NewServer,
-	configuration.NewConf)
+	server.NewServer)
 
-type deleteController struct {
-	s server.Server
-}
+type deleteController struct{}
 
-func newDeleteController(
-	s server.Server,
-	c configuration.Conf) deleteController {
-	controller := deleteController{
-		s: s,
-	}
-	controller.s.Router().DELETE(c.ApiPrefix+"insert_your_pattern", controller.handle)
+func newDeleteController(s server.Server) deleteController {
+	controller := deleteController{}
+	s.Router().DELETE(s.ApiPrefix()+"insert_your_pattern", controller.handle)
 	return controller
 }
 

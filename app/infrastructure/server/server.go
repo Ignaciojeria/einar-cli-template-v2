@@ -37,3 +37,7 @@ func (s Server) printRoutes() {
 func (s Server) Router() *echo.Echo {
 	return s.e
 }
+
+func (s Server) ApiPrefix() string {
+	return s.c.ApiPrefix
+}

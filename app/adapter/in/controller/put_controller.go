@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"archetype/app/configuration"
 	"archetype/app/infrastructure/server"
 	"net/http"
 
@@ -11,20 +10,13 @@ import (
 
 var _ = ioc.Registry(
 	newPutController,
-	server.NewServer,
-	configuration.NewConf)
+	server.NewServer)
 
-type putController struct {
-	s server.Server
-}
+type putController struct{}
 
-func newPutController(
-	s server.Server,
-	c configuration.Conf) putController {
-	controller := putController{
-		s: s,
-	}
-	controller.s.Router().PUT(c.ApiPrefix+"insert_your_pattern", controller.handle)
+func newPutController(s server.Server) putController {
+	controller := putController{}
+	s.Router().PUT(s.ApiPrefix()+"insert_your_pattern", controller.handle)
 	return controller
 }
 

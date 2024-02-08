@@ -45,6 +45,37 @@
     },    
     "component_commands":[
         {
+            "kind":"usecase",
+            "adapter_type":"inbound",
+            "command":"einar generate usecase ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/usecase/usecase.go",
+                "destination_dir": "app/usecase",
+                "ioc_discovery":false,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "IUsecase",
+                        "append_at_start":"I",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewUsecaseStruct",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"camelCase",
+                        "name": "usecaseStruct",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
             "kind":"get-controller",
             "adapter_type":"inbound",
             "command":"einar generate get-controller ${operation_name}",
