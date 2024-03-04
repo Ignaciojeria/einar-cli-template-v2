@@ -11,8 +11,9 @@ import (
 var _ = ioc.Registry(NewConf)
 
 type Conf struct {
-	Port      string
-	ApiPrefix string
+	Port            string
+	ApiPrefix       string
+	GoogleProjectID string
 }
 
 func NewConf() (Conf, error) {
