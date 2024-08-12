@@ -4,7 +4,6 @@ import (
 	"archetype/app/shared/constants"
 	"archetype/app/shared/infrastructure/gcppubsub"
 	"archetype/app/shared/infrastructure/serverwrapper"
-	"archetype/app/shared/logging"
 	"log/slog"
 	"os"
 
@@ -41,7 +40,6 @@ func init() {
 		NewSubscriptionManager,
 		gcppubsub.NewClient,
 		serverwrapper.NewEchoWrapper,
-		logging.NewLogger,
 	)
 }
 func NewSubscriptionManager(
