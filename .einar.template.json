@@ -6,144 +6,113 @@
         },
         {
             "name":"einar-ioc",
-            "library": "github.com/Ignaciojeria/einar-ioc@v1.6.0"
+            "library": "github.com/Ignaciojeria/einar-ioc/v2@v2.4.0"
+        },
+        {
+            "name":"uuid",
+            "library": "github.com/google/uuid"
         },
         {
             "name":"echo",
             "library": "github.com/labstack/echo/v4"
+        },
+        {
+            "name":"health-check",
+            "library": "github.com/hellofresh/health-go/v5"
+        },
+        {
+            "name":"validatorv10",
+            "library":"github.com/go-playground/validator/v10"
         }
     ],
     "base_template": {
        "folders": [
             {
-                "source_dir": "app/configuration",
-                "destination_dir": "app/configuration"
+                "source_dir": "app/shared/infrastructure/serverwrapper",
+                "destination_dir": "app/shared/infrastructure/serverwrapper"
             },
             {
-                "source_dir": "app/infrastructure/server",
-                "destination_dir": "app/infrastructure/server"
+                "source_dir": "app/shared/systemerr",
+                "destination_dir": "app/shared/systemerr"
+            },
+            {
+                "source_dir": "app/shared/constants",
+                "destination_dir": "app/shared/constants"
+            },
+            {
+                "source_dir": "app/shared/infrastructure/healthcheck",
+                "destination_dir": "app/shared/infrastructure/healthcheck"
+            },
+            {
+                "source_dir": "app/shared/validator",
+                "destination_dir": "app/shared/validator"
             }
         ],
         "files": [
+            {
+                "source_file": "app/shared/configuration/conf.go",
+                "destination_file": "app/shared/configuration/conf.go"
+            },
+            {
+                "source_file": "app/shared/configuration/env_loader.go",
+                "destination_file": "app/shared/configuration/env_loader.go"
+            },
+            {
+                "source_file": "app/shared/configuration/validate_conf.go",
+                "destination_file": "app/shared/configuration/validate_conf.go"
+            },
             {
                 "source_file": "main.go",
                 "destination_file": "main.go"
             },
             {
-                "source_file": ".environment",
+                "source_file": ".version",
+                "destination_file": ".version"
+            },
+            {
+                "source_file": ".env",
                 "destination_file": ".env"
             },
             {
                 "source_file": ".gitignore",
                 "destination_file": ".gitignore"
-            },
-            {
-                "source_file": ".einar.cli.json",
-                "destination_file": ".einar.cli.json"
             }
         ]
     },    
     "component_commands":[
-        {
-            "kind":"usecase",
-            "adapter_type":"inbound",
-            "command":"einar generate usecase ${operation_name}",
-            "depends_on":[""],
-            "files": [{
-                "source_file": "app/usecase/usecase.go",
-                "destination_dir": "app/usecase",
-                "ioc_discovery":false,
-                "replace_holders": [
-                    {
-                        "kind":"PascalCase",
-                        "name": "IUsecase",
-                        "append_at_start":"I",
-                        "append_at_end":""
-                    },
-                    {
-                        "kind":"PascalCase",
-                        "name": "NewUsecaseStruct",
-                        "append_at_start":"New",
-                        "append_at_end":""
-                    },
-                    {
-                        "kind":"camelCase",
-                        "name": "usecaseStruct",
-                        "append_at_start":"",
-                        "append_at_end":""
-                    }
-                ]
-            }]
-        },
         {
             "kind":"get-controller",
             "adapter_type":"inbound",
             "command":"einar generate get-controller ${operation_name}",
             "depends_on":[""],
             "files": [{
-                "source_file": "app/adapter/in/controller/get_controller.go",
-                "destination_dir": "app/adapter/in/controller",
+                "source_file": "app/adapter/in/api/get.go",
+                "destination_dir": "app/adapter/in/api",
                 "ioc_discovery":true,
                 "replace_holders": [
                     {
-                        "kind":"PascalCase",
-                        "name": "newGetController",
-                        "append_at_start":"new",
-                        "append_at_end":""
-                    },
-                    {
                         "kind":"camelCase",
-                        "name": "getController",
+                        "name": "newTemplateGet",
                         "append_at_start":"",
                         "append_at_end":""
                     }
                 ]
-            }]
-        },
-        {
-            "kind":"delete-controller",
-            "adapter_type":"inbound",
-            "command":"einar generate delete-controller ${operation_name}",
-            "depends_on":[""],
-            "files": [{
-                "source_file": "app/adapter/in/controller/delete_controller.go",
-                "destination_dir": "app/adapter/in/controller",
+            },
+            {
+                "source_file": "app/adapter/in/api/get_test.go",
+                "destination_dir": "app/adapter/in/api",
                 "ioc_discovery":true,
+                "append_at_end":"_test",
                 "replace_holders": [
                     {
                         "kind":"PascalCase",
-                        "name": "newDeleteController",
-                        "append_at_start":"new",
+                        "name": "TestNewTemplateGet",
+                        "append_at_start":"Test",
                         "append_at_end":""
                     },
                     {
                         "kind":"camelCase",
-                        "name": "deleteController",
-                        "append_at_start":"",
-                        "append_at_end":""
-                    }
-                ]
-            }]
-        },
-        {
-            "kind":"patch-controller",
-            "adapter_type":"inbound",
-            "command":"einar generate patch-controller ${operation_name}",
-            "depends_on":[""],
-            "files": [{
-                "source_file": "app/adapter/in/controller/patch_controller.go",
-                "destination_dir": "app/adapter/in/controller",
-                "ioc_discovery":true,
-                "replace_holders": [
-                    {
-                        "kind":"PascalCase",
-                        "name": "newPatchController",
-                        "append_at_start":"new",
-                        "append_at_end":""
-                    },
-                    {
-                        "kind":"camelCase",
-                        "name": "patchController",
+                        "name": "newTemplateGet",
                         "append_at_start":"",
                         "append_at_end":""
                     }
@@ -156,19 +125,33 @@
             "command":"einar generate post-controller ${operation_name}",
             "depends_on":[""],
             "files": [{
-                "source_file": "app/adapter/in/controller/post_controller.go",
-                "destination_dir": "app/adapter/in/controller",
+                "source_file": "app/adapter/in/api/post.go",
+                "destination_dir": "app/adapter/in/api",
                 "ioc_discovery":true,
                 "replace_holders": [
                     {
+                        "kind":"camelCase",
+                        "name": "newTemplatePost",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/api/post_test.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "append_at_end":"_test",
+                "replace_holders": [
+                    {
                         "kind":"PascalCase",
-                        "name": "newPostController",
-                        "append_at_start":"new",
+                        "name": "TestNewTemplatePost",
+                        "append_at_start":"Test",
                         "append_at_end":""
                     },
                     {
                         "kind":"camelCase",
-                        "name": "postController",
+                        "name": "newTemplatePost",
                         "append_at_start":"",
                         "append_at_end":""
                     }
@@ -181,24 +164,579 @@
             "command":"einar generate put-controller ${operation_name}",
             "depends_on":[""],
             "files": [{
-                "source_file": "app/adapter/in/controller/put_controller.go",
-                "destination_dir": "app/adapter/in/controller",
+                "source_file": "app/adapter/in/api/put.go",
+                "destination_dir": "app/adapter/in/api",
                 "ioc_discovery":true,
                 "replace_holders": [
                     {
+                        "kind":"camelCase",
+                        "name": "newTemplatePut",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/api/put_test.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "append_at_end":"_test",
+                "replace_holders": [
+                    {
                         "kind":"PascalCase",
-                        "name": "newPutController",
-                        "append_at_start":"new",
+                        "name": "TestNewTemplatePut",
+                        "append_at_start":"Test",
                         "append_at_end":""
                     },
                     {
                         "kind":"camelCase",
-                        "name": "putController",
+                        "name": "newTemplatePut",
                         "append_at_start":"",
                         "append_at_end":""
                     }
                 ]
             }]
+        },
+        {
+            "kind":"patch-controller",
+            "adapter_type":"inbound",
+            "command":"einar generate patch-controller ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/adapter/in/api/patch.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplatePatch",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/api/patch_test.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "append_at_end":"_test",
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "TestNewTemplatePatch",
+                        "append_at_start":"Test",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplatePatch",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"delete-controller",
+            "adapter_type":"inbound",
+            "command":"einar generate delete-controller ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/adapter/in/api/delete.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplateDelete",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/api/delete_test.go",
+                "destination_dir": "app/adapter/in/api",
+                "ioc_discovery":true,
+                "append_at_end":"_test",
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "TestNewTemplateDelete",
+                        "append_at_start":"Test",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplateDelete",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"usecase",
+            "adapter_type":"inbound",
+            "command":"einar generate usecase ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/usecase/use_case.go",
+                "destination_dir": "app/usecase",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "INewUsecase",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewUseCase",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"chat-pro",
+            "adapter_type":"outbound",
+            "command":"einar generate chat-pro ${operation_name}",
+            "depends_on":["gemini"],
+            "files": [{
+                "source_file": "app/adapter/out/chat/chat.go",
+                "destination_dir": "app/adapter/out/chat",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "IChat",
+                        "append_at_start":"I",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewChat",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"camelCase",
+                        "name": "chatStruct",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "Instance",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"gcp-subscription",
+            "adapter_type":"inbound",
+            "command":"einar generate gpc-subscription ${operation_name}",
+            "depends_on":["gcp-pubsub"],
+            "files": [{
+                "source_file": "app/adapter/in/gcpsubscription/message_processor.go",
+                "destination_dir": "app/adapter/in/gcpsubscription",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "newMessageProcessor",
+                        "append_at_start":"new",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/gcpsubscription/message_processor_test.go",
+                "destination_dir": "app/adapter/in/gcpsubscription",
+                "append_at_end":"_test",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "newMessageProcessor",
+                        "append_at_start":"new",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "TestMessageProcessor_Pull",
+                        "append_at_start":"Test",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"firestore-repository",
+            "adapter_type":"outbound",
+            "command":"einar generate firestore-repository ${operation_name}",
+            "depends_on":["firestore"],
+            "files": [{
+                "source_file": "app/adapter/out/firestore_repository/firestore_repository.go",
+                "destination_dir": "app/adapter/out/firestore_repository",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "IRunFirestoreOperation",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewRunFirestoreOperation",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    }
+                ]
+            }
+        ]
+        },
+        {
+            "kind":"gcp-publisher",
+            "adapter_type":"outbound",
+            "command":"einar generate gcp-publisher ${operation_name}",
+            "depends_on":["gcp-pubsub"],
+            "files": [{
+                "source_file": "app/adapter/out/gcppublisher/publisher.go",
+                "destination_dir": "app/adapter/out/gcppublisher",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "INewPublishEvent",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewPublishEvent",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    }
+                ]
+            }
+        ]
+        },
+        {
+            "kind":"storj-bucket",
+            "adapter_type":"outbound",
+            "command":"einar generate storj-bucket ${operation_name}",
+            "depends_on":["storj"],
+            "files": [{
+                "source_file": "app/adapter/out/storjbucket/bucket.go",
+                "destination_dir": "app/adapter/out/storjbucket",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "StorJBucket",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewStorJBucket",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewStorJBucketCreatePublicSharedLink",
+                        "append_at_start":"",
+                        "append_at_end":"CreatePublicSharedLink"
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewStorJBucketListFiles",
+                        "append_at_start":"",
+                        "append_at_end":"ListFiles"
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewStorJBucketDownload",
+                        "append_at_start":"",
+                        "append_at_end":"Download"
+                    },
+                    {
+                        "kind":"kebab",
+                        "name": "insert-your-bucket-name",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"resty-client",
+            "adapter_type":"outbound",
+            "command":"einar generate resty-client ${operation_name}",
+            "depends_on":["resty"],
+            "files": [{
+                "source_file": "app/adapter/out/restyclient/client.go",
+                "destination_dir": "app/adapter/out/restyclient",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "HTTPClient",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewHTTPClient",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"postgresql-repository",
+            "adapter_type":"outbound",
+            "command":"einar generate postgresql-repository ${operation_name}",
+            "depends_on":["postgresql"],
+            "files": [{
+                "source_file": "app/adapter/out/postgresql_repository/postgresql_repository.go",
+                "destination_dir": "app/adapter/out/postgresql_repository",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "RunPostgreSQLOperation",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewRunPostgreSQLOperation",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    }
+                ]
+            }
+        ]
+        },
+        {
+            "kind":"nats-request",
+            "adapter_type":"inbound",
+            "command":"einar generate nats-request ${operation_name}",
+            "depends_on":["nats"],
+            "files": [{
+                "source_file": "app/adapter/in/natsrequest/nats_request.go",
+                "destination_dir": "app/adapter/in/natsrequest",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newNatsRequest",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"nats-consumer",
+            "adapter_type":"inbound",
+            "command":"einar generate nats-consumer ${operation_name}",
+            "depends_on":["nats"],
+            "files": [{
+                "source_file": "app/adapter/in/natsconsumer/nats_consumer.go",
+                "destination_dir": "app/adapter/in/natsconsumer",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newNatsConsumer",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"onload-job",
+            "adapter_type":"outbound",
+            "command":"einar generate onload-job ${operation_name}",
+            "depends_on":[""],
+            "files": [{
+                "source_file": "app/onload/on_load_job.go",
+                "destination_dir": "app/onload",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "onloadJob",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        }
+    ],
+    "installation_commands":[
+        {
+            "name":"gemini",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/gemini/client.go",
+                    "destination_dir": "app/shared/infrastructure/gemini",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/infrastructure/gemini/gemini-1.0-pro-model_wrapper.go",
+                    "destination_dir": "app/shared/infrastructure/gemini",
+                    "ioc_discovery":true
+                }
+            ],
+            "libraries": [
+                "github.com/google/generative-ai-go/genai",
+                "github.com/heimdalr/dag@v1.4.0"
+            ]
+        },
+        {
+            "name":"gcp-pubsub",
+            "command":"einar install gcp-pubsub",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "mocks/subscription_manager_mock.go",
+                    "destination_dir": "mocks",
+                    "ioc_discovery":true
+                }
+            ],
+            "source_dir": "app/shared/infrastructure/gcppubsub",
+            "destination_dir": "app/shared/infrastructure/gcppubsub",
+            "libraries": [
+             "cloud.google.com/go/pubsub",
+             "github.com/heimdalr/dag@v1.4.0"]
+        },
+        {
+            "name":"firestore",
+            "command":"einar install firestore",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/firebaseapp/firebase_app.go",
+                    "destination_dir": "app/shared/infrastructure/firebaseapp",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/infrastructure/firebaseapp/firestoreclient/client.go",
+                    "destination_dir": "app/shared/infrastructure/firebaseapp/firestoreclient",
+                    "ioc_discovery":true
+                }
+            ],
+            "libraries": [
+             "firebase.google.com/go",
+             "cloud.google.com/go/firestore"]
+        },
+        {
+            "name":"storj",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/storj/uplink.go",
+                    "destination_dir": "app/shared/infrastructure/storj",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/configuration/storj_conf.go",
+                    "destination_dir": "app/shared/configuration",
+                    "ioc_discovery":false
+                }
+            ],
+            "libraries": [
+                "storj.io/uplink"
+            ]
+        },
+        {
+            "name":"resty",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/httpresty/client.go",
+                    "destination_dir": "app/shared/infrastructure/httpresty",
+                    "ioc_discovery":true
+                }
+            ],
+            "libraries": [
+                "github.com/go-resty/resty/v2",
+                "github.com/dubonzi/otelresty"
+            ]
+        },
+        {
+            "name":"postgresql",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/postgresql/connection.go",
+                    "destination_dir": "app/shared/infrastructure/postgresql",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/configuration/postgresql_conf.go",
+                    "destination_dir": "app/shared/configuration",
+                    "ioc_discovery":false
+                }
+            ],
+            "libraries": [
+                "gorm.io/gorm",
+                "gorm.io/driver/postgres",
+                "gorm.io/plugin/opentelemetry/tracing"
+            ]
+        },
+        {
+            "name":"nats",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/natsconn/connection.go",
+                    "destination_dir": "app/shared/infrastructure/natsconn",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/infrastructure/natsconn/jetstream.go",
+                    "destination_dir": "app/shared/infrastructure/natsconn",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/shared/configuration/nats_conf.go",
+                    "destination_dir": "app/shared/configuration",
+                    "ioc_discovery":false
+                }
+            ],
+            "libraries": [
+                "github.com/nats-io/nats.go"
+            ]
+        },
+        {
+            "name":"zrok",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/zrok/tunnel.go",
+                    "destination_dir": "app/shared/infrastructure/zrok",
+                    "ioc_discovery":true
+                }
+            ],
+            "libraries": [
+                "github.com/openziti/zrok/environment",
+                "github.com/openziti/zrok/sdk/golang/sdk"
+            ]
         }
     ]
 }
