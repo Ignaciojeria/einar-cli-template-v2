@@ -28,24 +28,12 @@
     "base_template": {
        "folders": [
             {
-                "source_dir": "app/shared/infrastructure/serverwrapper",
-                "destination_dir": "app/shared/infrastructure/serverwrapper"
-            },
-            {
                 "source_dir": "app/shared/systemerr",
                 "destination_dir": "app/shared/systemerr"
             },
             {
                 "source_dir": "app/shared/constants",
                 "destination_dir": "app/shared/constants"
-            },
-            {
-                "source_dir": "app/shared/infrastructure/healthcheck",
-                "destination_dir": "app/shared/infrastructure/healthcheck"
-            },
-            {
-                "source_dir": "app/shared/validator",
-                "destination_dir": "app/shared/validator"
             }
         ],
         "files": [
@@ -84,7 +72,7 @@
             "kind":"get-controller",
             "adapter_type":"inbound",
             "command":"einar generate get-controller ${operation_name}",
-            "depends_on":[""],
+            "depends_on":["labstack-echo"],
             "files": [{
                 "source_file": "app/adapter/in/api/get.go",
                 "destination_dir": "app/adapter/in/api",
@@ -123,7 +111,7 @@
             "kind":"post-controller",
             "adapter_type":"inbound",
             "command":"einar generate post-controller ${operation_name}",
-            "depends_on":[""],
+            "depends_on":["labstack-echo"],
             "files": [{
                 "source_file": "app/adapter/in/api/post.go",
                 "destination_dir": "app/adapter/in/api",
@@ -162,7 +150,7 @@
             "kind":"put-controller",
             "adapter_type":"inbound",
             "command":"einar generate put-controller ${operation_name}",
-            "depends_on":[""],
+            "depends_on":["labstack-echo"],
             "files": [{
                 "source_file": "app/adapter/in/api/put.go",
                 "destination_dir": "app/adapter/in/api",
@@ -201,7 +189,7 @@
             "kind":"patch-controller",
             "adapter_type":"inbound",
             "command":"einar generate patch-controller ${operation_name}",
-            "depends_on":[""],
+            "depends_on":["labstack-echo"],
             "files": [{
                 "source_file": "app/adapter/in/api/patch.go",
                 "destination_dir": "app/adapter/in/api",
@@ -240,7 +228,7 @@
             "kind":"delete-controller",
             "adapter_type":"inbound",
             "command":"einar generate delete-controller ${operation_name}",
-            "depends_on":[""],
+            "depends_on":["labstack-echo"],
             "files": [{
                 "source_file": "app/adapter/in/api/delete.go",
                 "destination_dir": "app/adapter/in/api",
@@ -610,7 +598,7 @@
         {
             "name":"gcp-pubsub",
             "command":"einar install gcp-pubsub",
-            "depends_on":[],
+            "depends_on":["labstack-echo"],
             "files": [
                 {   
                     "source_file": "mocks/subscription_manager_mock.go",
@@ -725,7 +713,7 @@
         },
         {
             "name":"zrok",
-            "depends_on":[],
+            "depends_on":["labstack-echo"],
             "files": [
                 {   
                     "source_file": "app/shared/infrastructure/zrok/tunnel.go",
@@ -742,14 +730,31 @@
             "name":"grpc-trace-provider",
             "depends_on":[],
             "files": [
-                {   
+                {
                     "source_file": "app/shared/infrastructure/observability/trace_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
                 }
-            ],
-            "libraries": [
-                ""
+            ]
+        },
+        {
+            "name":"labstack-echo",
+            "depends_on":[],
+            "files": [
+                {
+                    "source_file": "app/shared/infrastructure/serverwrapper/echo_wrapper.go",
+                    "destination_dir": "app/shared/infrastructure/serverwrapper",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/healthcheck/healthcheck.go",
+                    "destination_dir": "app/shared/infrastructure/healthcheck",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/validator/validator.go",
+                    "destination_dir": "app/shared/validator"
+                }
             ]
         }
     ]
