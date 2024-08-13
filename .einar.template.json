@@ -747,6 +747,9 @@
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
                 }
+            ],
+            "libraries": [
+                ""
             ]
         }
     ]
