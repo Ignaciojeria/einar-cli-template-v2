@@ -2,7 +2,6 @@ package main
 
 import (
 	"archetype/app/shared/constants"
-	_ "archetype/app/shared/infrastructure/healthcheck"
 	_ "embed"
 	"log"
 	"os"
