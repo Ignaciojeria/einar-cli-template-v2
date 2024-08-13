@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "archetype/app/shared/configuration"
 	"archetype/app/shared/constants"
 	_ "embed"
 	"log"
