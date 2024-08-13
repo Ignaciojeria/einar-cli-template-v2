@@ -737,6 +737,17 @@
                 "github.com/openziti/zrok/environment",
                 "github.com/openziti/zrok/sdk/golang/sdk"
             ]
+        },
+        {
+            "name":"grpc-trace-provider",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/infrastructure/observability/trace_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                }
+            ]
         }
     ]
 }

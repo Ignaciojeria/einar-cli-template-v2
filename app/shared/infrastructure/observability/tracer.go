@@ -16,24 +16,22 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
+	"go.opentelemetry.io/otel/trace"
 )
-
-var Tracer = otel.Tracer("observability")
 
 func init() {
 	ioc.Registry(
-		newTracerProvider,
+		NewTraceProvider,
 		configuration.NewConf)
 }
 
-func newTracerProvider(conf configuration.Conf) error {
+func NewTraceProvider(conf configuration.Conf) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
-
 	client := otlptracegrpc.NewClient()
 	exporter, err := otlptrace.New(ctx, client)
 	if err != nil {
 		cancel()
-		return fmt.Errorf("creating OTLP trace exporter: %w", err)
+		return nil, fmt.Errorf("creating OTLP trace exporter: %w", err)
 	}
 	tp := tracesdk.NewTracerProvider(
 		tracesdk.WithBatcher(exporter),
@@ -57,5 +55,5 @@ func newTracerProvider(conf configuration.Conf) error {
 		}
 		cancel()
 	}()
-	return nil
+	return tp.Tracer("observability"), nil
 }
