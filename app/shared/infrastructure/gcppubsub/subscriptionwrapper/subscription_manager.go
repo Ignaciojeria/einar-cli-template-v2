@@ -1,7 +1,6 @@
 package subscriptionwrapper
 
 import (
-	"archetype/app/shared/constants"
 	"archetype/app/shared/infrastructure/gcppubsub"
 	"archetype/app/shared/infrastructure/serverwrapper"
 	"log/slog"
@@ -32,8 +31,6 @@ type SubscriptionWrapper struct {
 	httpServer       serverwrapper.EchoWrapper
 	messageProcessor MessageProcessor
 }
-
-const subscription_name = "subscription_name"
 
 func init() {
 	ioc.Registry(
@@ -68,8 +65,8 @@ func (s *SubscriptionWrapper) Start(subscriptionRef *pubsub.Subscription) (Subsc
 	if err := subscriptionRef.Receive(ctx, s.receive); err != nil {
 		logger.Error(
 			"subscription_signal_broken",
-			subscription_name, subscriptionRef.String(),
-			constants.Error, err.Error(),
+			"subscription_name", subscriptionRef.String(),
+			"error", err.Error(),
 		)
 		time.Sleep(10 * time.Second)
 		go s.Start(subscriptionRef)
