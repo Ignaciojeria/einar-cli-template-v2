@@ -1,0 +1,11 @@
+{
+    "$id": "https://example.com/hello-world-schema",
+    "title": "HelloWorld",
+    "type": "object",
+    "properties": {
+      "greeting": {
+        "type": "string"
+      }
+    },
+    "required": ["greeting"]
+  }

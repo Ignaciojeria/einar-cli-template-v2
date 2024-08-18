@@ -547,6 +547,65 @@
                     }
                 ]
             }]
+        },
+        {
+            "kind":"schema",
+            "adapter_type":"outbound",
+            "command":"einar generate schema ${schema_name}",
+            "depends_on":[""],
+            "files": [
+            {
+                "source_file": "app/shared/schemas/schema.go",
+                "destination_dir": "app/shared/schemas",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewSchemaComponent",
+                        "append_at_start":"New",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "SchemaComponent",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"snake_case",
+                        "name": "schema_file",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/shared/schemas/schema_file.json",
+                "destination_dir": "app/shared/schemas",
+                "ioc_discovery":true,
+                "replace_holders": []
+            },
+            {
+                "source_file": "app/shared/schemas/schema_test.go",
+                "destination_dir": "app/shared/schemas",
+                "ioc_discovery":true,
+                "append_at_end":"_test",
+                "replace_holders": [
+                    {
+                        "kind":"PascalCase",
+                        "name": "TestHelloWorldSchema",
+                        "append_at_start":"Test",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": "NewSchemaComponent",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }
+        ]
         }
     ],
     "installation_commands":[
