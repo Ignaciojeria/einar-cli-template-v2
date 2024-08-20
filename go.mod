@@ -43,6 +43,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/calebcase/tmpfile v1.0.3 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
+	github.com/clarketm/json v1.17.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/flynn/noise v1.0.0 // indirect

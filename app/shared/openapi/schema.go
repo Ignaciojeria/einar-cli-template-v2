@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
+	clarketmjson "github.com/clarketm/json"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/qri-io/jsonschema"
 )
@@ -51,8 +52,8 @@ func NewSchemaComponent() (SchemaComponent, error) {
 	return SchemaComponent{schema: schema}, nil
 }
 
-func (v *SchemaComponent) ValidateBytes(ctx context.Context, json []byte) error {
-	errs, err := v.schema.ValidateBytes(ctx, json)
+func (v *SchemaComponent) ValidateBytes(json []byte) error {
+	errs, err := v.schema.ValidateBytes(context.Background(), json)
 	if err != nil {
 		return err
 	}
@@ -64,4 +65,12 @@ func (v *SchemaComponent) ValidateBytes(ctx context.Context, json []byte) error 
 		sb.WriteString(fmt.Sprintf("Validation error: %s\n", e.Error()))
 	}
 	return errors.New(sb.String())
+}
+
+func (v *SchemaComponent) Validate(json interface{}) error {
+	b, err := clarketmjson.Marshal(json)
+	if err != nil {
+		return err
+	}
+	return v.ValidateBytes(b)
 }

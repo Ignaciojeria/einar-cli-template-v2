@@ -1,7 +1,6 @@
 package openapi
 
 import (
-	"context"
 	"testing"
 )
 
@@ -18,7 +17,7 @@ func TestHelloWorldSchema(t *testing.T) {
 	}{
 		{
 			name:      "Valid greeting",
-			json:      []byte(`{"greeting": "Hello, World!"}`),
+			json:      []byte(`{"message": "Hello, World!"}`),
 			wantError: false,
 		},
 		{
@@ -28,14 +27,14 @@ func TestHelloWorldSchema(t *testing.T) {
 		},
 		{
 			name:      "Invalid greeting with wrong type",
-			json:      []byte(`{"greeting": 12345}`),
+			json:      []byte(`{"message": 12345}`),
 			wantError: true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := schema.ValidateBytes(context.Background(), tt.json)
+			err := schema.ValidateBytes(tt.json)
 			if (err != nil) != tt.wantError {
 				t.Errorf("Test %s: expected error = %v, got %v", tt.name, tt.wantError, err != nil)
 			}
