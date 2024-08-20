@@ -639,7 +639,7 @@
                 ]
             },
             {
-                "source_file": "app/shared/openapi/schema_file.json",
+                "source_file": "app/shared/openapi/schema_file.yaml",
                 "destination_dir": "app/shared/openapi",
                 "ioc_discovery":true,
                 "replace_holders": []
