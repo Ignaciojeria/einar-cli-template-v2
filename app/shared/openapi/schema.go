@@ -1,24 +1,17 @@
 package openapi
 
 import (
-	"context"
 	_ "embed"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"strings"
 
+	contract "github.com/Ignaciojeria/einar-contracts"
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
-	clarketmjson "github.com/clarketm/json"
-	"github.com/getkin/kin-openapi/openapi3"
-	"github.com/qri-io/jsonschema"
 )
 
 type SchemaComponent struct {
-	schema *jsonschema.Schema
+	*contract.APISpec
 }
 
-//go:embed schema_file.yaml
+//go:embed schema_file.json
 var schema_file []byte
 
 func init() {
@@ -26,51 +19,16 @@ func init() {
 }
 
 func NewSchemaComponent() (SchemaComponent, error) {
-	const SCHEMA_KEY = "REPLACE_BY_YOUR_SCHEMA_KEY"
-	loader := openapi3.NewLoader()
-	data, err := loader.LoadFromData(schema_file)
+	spec, err := contract.NewAPIAPISpec(
+		contract.Contract{
+			Data:        schema_file,
+			Path:        "/hello",
+			HTTPMethod:  "POST",
+			ContentType: "application/json",
+		},
+	)
 	if err != nil {
 		return SchemaComponent{}, err
 	}
-	schemaComponents := data.Components
-	if schemaComponents == nil {
-		return SchemaComponent{}, errors.New("schema components not found")
-	}
-	schemaRef := schemaComponents.Schemas[SCHEMA_KEY]
-	if schemaRef == nil {
-		return SchemaComponent{}, errors.New(SCHEMA_KEY + " schemaRef not found")
-	}
-	schema_file, err = schemaRef.MarshalJSON()
-	if err != nil {
-		return SchemaComponent{}, err
-	}
-
-	schema := &jsonschema.Schema{}
-	if err := json.Unmarshal(schema_file, schema); err != nil {
-		return SchemaComponent{}, err
-	}
-	return SchemaComponent{schema: schema}, nil
-}
-
-func (v *SchemaComponent) ValidateBytes(json []byte) error {
-	errs, err := v.schema.ValidateBytes(context.Background(), json)
-	if err != nil {
-		return err
-	}
-	if len(errs) == 0 {
-		return nil
-	}
-	var sb strings.Builder
-	for _, e := range errs {
-		sb.WriteString(fmt.Sprintf("Validation error: %s\n", e.Error()))
-	}
-	return errors.New(sb.String())
-}
-
-func (v *SchemaComponent) Validate(json interface{}) error {
-	b, err := clarketmjson.Marshal(json)
-	if err != nil {
-		return err
-	}
-	return v.ValidateBytes(b)
+	return SchemaComponent{spec}, nil
 }
