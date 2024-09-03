@@ -65,6 +65,10 @@ github.com/Ignaciojeria/einar-contracts v1.0.1 h1:5KODSbK4UX6ZRmJjzfX4wtKEIWuGWG
 github.com/Ignaciojeria/einar-contracts v1.0.1/go.mod h1:0rBkJ15+McpnZ4ILOElkF+AzBBz2IHxHzlV8w9rCtRc=
 github.com/Ignaciojeria/einar-contracts v1.2.0 h1:ZCdBSPAvSJj4qGiac46/oaGz9CA4kXYwy2keIqZiNTY=
 github.com/Ignaciojeria/einar-contracts v1.2.0/go.mod h1:Qtnfe5ATy7lNleJWPvOHLH6ESOF1OtihGr0oae84rAI=
+github.com/Ignaciojeria/einar-contracts v1.2.2 h1:qSD/tBiom13BGCe56Z1a2biDMPugPZqrWq7vkImFI9k=
+github.com/Ignaciojeria/einar-contracts v1.2.2/go.mod h1:Qtnfe5ATy7lNleJWPvOHLH6ESOF1OtihGr0oae84rAI=
+github.com/Ignaciojeria/einar-contracts v1.3.0 h1:R9JScyhpUdMHjqm24R04gdJ8LFg+CuS1SPS7lPZZZsk=
+github.com/Ignaciojeria/einar-contracts v1.3.0/go.mod h1:Qtnfe5ATy7lNleJWPvOHLH6ESOF1OtihGr0oae84rAI=
 github.com/Ignaciojeria/einar-ioc/v2 v2.0.1 h1:E1mjM+xR9zuPJs9HiAKEDkxYxjOgkTWSvIrHIRASzFc=
 github.com/Ignaciojeria/einar-ioc/v2 v2.0.1/go.mod h1:rMHn/kZ2e+RK84PwNBm6zdEx+5n9wOn7ySGVIp18xnw=
 github.com/Ignaciojeria/einar-ioc/v2 v2.4.0 h1:VsLldKsPR1wyauZYjCvK3Iiodyuaw58x6Md/xNUwY+E=

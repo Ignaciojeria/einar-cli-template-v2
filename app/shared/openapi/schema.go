@@ -9,7 +9,9 @@ import (
 )
 
 type SchemaComponent struct {
-	*contract.APISpec
+	APIReferenceHTML string
+	HelloEndpoint    *contract.Endpoint
+	GreetEndpoint    *contract.Endpoint
 }
 
 //go:embed schema_file.json
@@ -20,20 +22,36 @@ func init() {
 }
 
 func NewSchemaComponent() (SchemaComponent, error) {
-	spec, err := contract.NewAPISpec(
-		contract.Contract{
-			APIReferenceHTMLOptions: &scalar.Options{
-				SpecContent: string(schema_file),
-				Theme:       scalar.ThemeDeepSpace,
-			},
-			Data:        schema_file,
-			Path:        "/hello",
-			HTTPMethod:  "POST",
-			ContentType: "application/json",
+	apiReferenceHTML, err := scalar.ApiReferenceHTML(&scalar.Options{
+		SpecContent: schema_file,
+	})
+	if err != nil {
+		return SchemaComponent{}, err
+	}
+	helloEndpoint, err := contract.LoadSpecEndpoint(
+		contract.EndpointDetails{
+			ContractData: schema_file,
+			Path:         "/hello",
+			HTTPMethod:   "POST",
+			ContentType:  "application/json",
 		},
 	)
 	if err != nil {
 		return SchemaComponent{}, err
 	}
-	return SchemaComponent{spec}, nil
+	greetEndpoint, err := contract.LoadSpecEndpoint(
+		contract.EndpointDetails{
+			ContractData: schema_file,
+			Path:         "/greet",
+			HTTPMethod:   "POST",
+			ContentType:  "application/json",
+		},
+	)
+	if err != nil {
+		return SchemaComponent{}, err
+	}
+	return SchemaComponent{
+		APIReferenceHTML: apiReferenceHTML,
+		HelloEndpoint:    helloEndpoint,
+		GreetEndpoint:    greetEndpoint}, nil
 }
