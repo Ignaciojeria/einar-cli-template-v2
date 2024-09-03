@@ -5,6 +5,7 @@ import (
 
 	contract "github.com/Ignaciojeria/einar-contracts"
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
+	"github.com/MarceloPetrucio/go-scalar-api-reference"
 )
 
 type SchemaComponent struct {
@@ -19,8 +20,12 @@ func init() {
 }
 
 func NewSchemaComponent() (SchemaComponent, error) {
-	spec, err := contract.NewAPIAPISpec(
+	spec, err := contract.NewAPISpec(
 		contract.Contract{
+			APIReferenceHTMLOptions: &scalar.Options{
+				SpecContent: string(schema_file),
+				Theme:       scalar.ThemeDeepSpace,
+			},
 			Data:        schema_file,
 			Path:        "/hello",
 			HTTPMethod:  "POST",

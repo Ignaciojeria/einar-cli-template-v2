@@ -63,10 +63,14 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/Ignaciojeria/einar-contracts v1.0.1 h1:5KODSbK4UX6ZRmJjzfX4wtKEIWuGWG2ClZW+IAGOoRA=
 github.com/Ignaciojeria/einar-contracts v1.0.1/go.mod h1:0rBkJ15+McpnZ4ILOElkF+AzBBz2IHxHzlV8w9rCtRc=
+github.com/Ignaciojeria/einar-contracts v1.2.0 h1:ZCdBSPAvSJj4qGiac46/oaGz9CA4kXYwy2keIqZiNTY=
+github.com/Ignaciojeria/einar-contracts v1.2.0/go.mod h1:Qtnfe5ATy7lNleJWPvOHLH6ESOF1OtihGr0oae84rAI=
 github.com/Ignaciojeria/einar-ioc/v2 v2.0.1 h1:E1mjM+xR9zuPJs9HiAKEDkxYxjOgkTWSvIrHIRASzFc=
 github.com/Ignaciojeria/einar-ioc/v2 v2.0.1/go.mod h1:rMHn/kZ2e+RK84PwNBm6zdEx+5n9wOn7ySGVIp18xnw=
 github.com/Ignaciojeria/einar-ioc/v2 v2.4.0 h1:VsLldKsPR1wyauZYjCvK3Iiodyuaw58x6Md/xNUwY+E=
 github.com/Ignaciojeria/einar-ioc/v2 v2.4.0/go.mod h1:FhuC5ttwimkc3FGdfh4y1LifaB07np/7gX/K2nfEBLU=
+github.com/MarceloPetrucio/go-scalar-api-reference v0.0.0-20240521013641-ce5d2efe0e06 h1:W4Yar1SUsPmmA51qoIRb174uDO/Xt3C48MB1YX9Y3vM=
+github.com/MarceloPetrucio/go-scalar-api-reference v0.0.0-20240521013641-ce5d2efe0e06/go.mod h1:/wotfjM8I3m8NuIHPz3S8k+CCYH80EqDT8ZeNLqMQm0=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
