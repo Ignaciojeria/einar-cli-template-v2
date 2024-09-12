@@ -23,14 +23,14 @@ func init() {
 
 func NewSchemaComponent() (SchemaComponent, error) {
 	apiReferenceHTML, err := scalar.ApiReferenceHTML(&scalar.Options{
-		SpecContent: schema_file,
+		SpecContent: string(schema_file),
 	})
 	if err != nil {
 		return SchemaComponent{}, err
 	}
 	helloEndpoint, err := contract.LoadSpecEndpoint(
 		contract.EndpointDetails{
-			ContractData: schema_file,
+			ContractData: schema_file, 
 			Path:         "/hello",
 			HTTPMethod:   "POST",
 			ContentType:  "application/json",
