@@ -44,9 +44,9 @@ func isOpenObserveConfigured(env configuration.EnvLoader) bool {
 	endpoint := env.Get("OPENOBSERVE_GRPC_ENDPOINT")
 	auth := env.Get("OPENOBSERVE_AUTHORIZATION")
 	org := env.Get("OPENOBSERVE_ORGANIZATION")
-
+	stream := env.Get("OPENOBSERVE_STREAM_NAME")
 	// If all the key variables for OpenObserve are present, we use OpenObserve
-	return endpoint != "" && auth != "" && org != ""
+	return endpoint != "" && auth != "" && org != "" && stream != ""
 }
 
 // NewGRPCOpenObserveTraceProvider configures the trace provider for OpenObserve.
