@@ -863,6 +863,17 @@
             ]
         },
         {
+            "name":"grpc-log-provider",
+            "depends_on":[],
+            "files": [
+                {
+                    "source_file": "app/shared/infrastructure/observability/log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                }
+            ]
+        },
+        {
             "name":"labstack-echo",
             "depends_on":[],
             "files": [
