@@ -47,7 +47,7 @@ func NewTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 func newGRPCOpenObserveTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	client := otlptracegrpc.NewClient(
-		//otlptracegrpc.WithEndpoint(env.Get("OPENOBSERVE_GRPC_ENDPOINT")),
+		otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")),
 		otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()),
 		otlptracegrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
 			ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
@@ -132,7 +132,6 @@ func newDatadogGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, err
 
 func newNoOpTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	tp := tracesdk.NewTracerProvider(
-		tracesdk.WithSpanProcessor(tracesdk.NewSimpleSpanProcessor(nil)), // No-op processor
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
 			semconv.ServiceNameKey.String(env.Get("PROJECT_NAME")),
