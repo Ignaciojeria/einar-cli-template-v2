@@ -22,7 +22,6 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// init function to conditionally register the appropriate trace provider
 func init() {
 	ioc.Registry(
 		NewTraceProvider,
@@ -30,30 +29,25 @@ func init() {
 	)
 }
 
-// RegisterTraceProvider determines whether to use OpenObserve or a basic provider based on the existing environment variables.
+// RegisterTraceProvider determines whether to use OpenObserve, Datadog or non provider based on the existing environment variables.
 func NewTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
-	// Check if OpenObserve variables are set
-	if isOpenObserveConfigured(env) {
+	// Get the observability strategy
+	strategy := env.Get("OBSERVABILITY_STRATEGY")
+	switch strategy {
+	case "openobserve":
 		return newGRPCOpenObserveTraceProvider(env)
+	case "datadog":
+		return newDatadogGRPCTraceProvider(env)
+	default:
+		return newNoOpTraceProvider(env)
 	}
-	return newDefaultTraceProvider(env)
-}
-
-// isOpenObserveConfigured checks if the environment variables for OpenObserve are set.
-func isOpenObserveConfigured(env configuration.EnvLoader) bool {
-	endpoint := env.Get("OPENOBSERVE_GRPC_ENDPOINT")
-	auth := env.Get("OPENOBSERVE_AUTHORIZATION")
-	org := env.Get("OPENOBSERVE_ORGANIZATION")
-	stream := env.Get("OPENOBSERVE_STREAM_NAME")
-	// If all the key variables for OpenObserve are present, we use OpenObserve
-	return endpoint != "" && auth != "" && org != "" && stream != ""
 }
 
 // NewGRPCOpenObserveTraceProvider configures the trace provider for OpenObserve.
 func newGRPCOpenObserveTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	client := otlptracegrpc.NewClient(
-		otlptracegrpc.WithEndpoint(env.Get("OPENOBSERVE_GRPC_ENDPOINT")),
+		//otlptracegrpc.WithEndpoint(env.Get("OPENOBSERVE_GRPC_ENDPOINT")),
 		otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()),
 		otlptracegrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
 			ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
@@ -101,8 +95,8 @@ func newGRPCOpenObserveTraceProvider(env configuration.EnvLoader) (trace.Tracer,
 	return tp.Tracer("observability"), nil
 }
 
-// NewTraceProvider configures a basic trace provider without OpenObserve.
-func newDefaultTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+// NewTraceProvider configures a basic trace provider for DataDog.
+func newDatadogGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	client := otlptracegrpc.NewClient()
 	exporter, err := otlptrace.New(ctx, client)
@@ -134,4 +128,33 @@ func newDefaultTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) 
 	}()
 
 	return tp.Tracer("observability"), nil
+}
+
+func newNoOpTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+	tp := tracesdk.NewTracerProvider(
+		tracesdk.WithSpanProcessor(tracesdk.NewSimpleSpanProcessor(nil)), // No-op processor
+		tracesdk.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceNameKey.String(env.Get("PROJECT_NAME")),
+			semconv.DeploymentEnvironmentKey.String(env.Get("ENVIRONMENT")),
+		)),
+	)
+
+	otel.SetTracerProvider(tp)
+
+	// Handle shutdown signal for clean exit
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		<-sigChan
+		shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), time.Second*2)
+		defer shutdownCancel()
+		if err := tp.Shutdown(shutdownCtx); err != nil {
+			fmt.Println("Failed to shutdown:", err)
+		}
+	}()
+
+	// No exporter is set, traces will not be sent anywhere
+	return tp.Tracer("no-op-observability"), nil
 }
