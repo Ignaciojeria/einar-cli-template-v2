@@ -11,6 +11,7 @@ import (
 	"time"
 
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
+	otelslogjson "github.com/go-slog/otelslog"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/resource"
@@ -25,13 +26,20 @@ import (
 // init function to register the appropriate logger provider
 func init() {
 	ioc.Registry(
-		NewLoggerProvider,
+		newLoggerProvider,
 		configuration.NewEnvLoader,
 	)
 }
 
-func NewLoggerProvider(env configuration.EnvLoader) (*slog.Logger, error) {
-	return newGRPCOpenObserveLoggerProvider(env)
+func newLoggerProvider(env configuration.EnvLoader) (*slog.Logger, error) {
+	// Get the observability strategy
+	strategy := env.Get("OBSERVABILITY_STRATEGY")
+	switch strategy {
+	case "openobserve":
+		return newGRPCOpenObserveLoggerProvider(env)
+	default:
+		return newNoOpLoggerProvider(), nil
+	}
 }
 
 // newGRPCOpenObserveLoggerProvider configures the logger provider for OpenObserve.
@@ -40,7 +48,7 @@ func newGRPCOpenObserveLoggerProvider(env configuration.EnvLoader) (*slog.Logger
 
 	// Configure the exporter options
 	exporterOpts := []otlploggrpc.Option{
-		otlploggrpc.WithEndpoint(env.Get("OPENOBSERVE_GRPC_ENDPOINT")),
+		otlploggrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")),
 		otlploggrpc.WithTLSCredentials(insecure.NewCredentials()),
 		otlploggrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
 			ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
@@ -100,4 +108,8 @@ func newGRPCOpenObserveLoggerProvider(env configuration.EnvLoader) (*slog.Logger
 	)
 
 	return logger, nil
+}
+
+func newNoOpLoggerProvider() *slog.Logger {
+	return slog.New(otelslogjson.NewHandler(slog.NewJSONHandler(os.Stdout, nil)))
 }

@@ -852,22 +852,21 @@
             ]
         },
         {
-            "name":"grpc-trace-provider",
+            "name":"observability",
             "depends_on":[],
             "files": [
                 {
                     "source_file": "app/shared/infrastructure/observability/trace_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
-                }
-            ]
-        },
-        {
-            "name":"grpc-log-provider",
-            "depends_on":[],
-            "files": [
+                },
                 {
                     "source_file": "app/shared/infrastructure/observability/log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/observability.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
                 }
