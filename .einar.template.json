@@ -866,7 +866,7 @@
                     "ioc_discovery":true
                 },
                 {
-                    "source_file": "app/shared/infrastructure/observability/strategy/datadog_stdout_log_provider.fo",
+                    "source_file": "app/shared/infrastructure/observability/strategy/datadog_stdout_log_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability/strategy",
                     "ioc_discovery":true
                 },
