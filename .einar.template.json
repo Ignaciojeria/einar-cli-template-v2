@@ -681,38 +681,6 @@
             ]
         },
         {
-            "name":"slog",
-            "depends_on":[],
-            "files": [
-                {   
-                    "source_file": "app/adapter/out/slogging/logger.go",
-                    "destination_dir": "app/adapter/out/slogging"
-                }
-            ]
-        },
-        {
-            "name":"slog-with-span",
-            "depends_on":[],
-            "files": [
-                {   
-                    "source_file": "app/adapter/out/slogging/span_logger.go",
-                    "destination_dir": "app/adapter/out/slogging",
-                    "ioc_discovery":true
-                }
-            ]
-        },
-        {
-            "name":"slog-with-dd-span",
-            "depends_on":[],
-            "files": [
-                {   
-                    "source_file": "app/adapter/out/slogging/dd_span_logger.go",
-                    "destination_dir": "app/adapter/out/slogging",
-                    "ioc_discovery":true
-                }
-            ]
-        },
-        {
             "name":"gcp-pubsub",
             "command":"einar install gcp-pubsub",
             "depends_on":["labstack-echo"],
