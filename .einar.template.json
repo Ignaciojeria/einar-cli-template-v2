@@ -861,6 +861,36 @@
                     "ioc_discovery":true
                 },
                 {
+                    "source_file": "app/shared/infrastructure/observability/strategy/datadog_grpc_trace_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/datadog_stdout_log_provider.fo",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/noop_stdout_log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/noop_trace_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/openobserve_grpc_log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/openobserve_grpc_trace_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
                     "source_file": "app/shared/infrastructure/observability/log_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
