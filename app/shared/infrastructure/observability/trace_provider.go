@@ -24,13 +24,20 @@ import (
 
 func init() {
 	ioc.Registry(
-		NewTraceProvider,
+		newTraceProvider,
+		configuration.NewEnvLoader,
+	)
+}
+
+func init() {
+	ioc.Registry(
+		newTraceProvider,
 		configuration.NewEnvLoader,
 	)
 }
 
 // RegisterTraceProvider determines whether to use OpenObserve, Datadog or non provider based on the existing environment variables.
-func NewTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+func newTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	// Get the observability strategy
 	strategy := env.Get("OBSERVABILITY_STRATEGY")
 	switch strategy {
