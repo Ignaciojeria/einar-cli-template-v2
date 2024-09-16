@@ -17,10 +17,6 @@
                 "destination_file": "app/shared/configuration/env_loader.go"
             },
             {
-                "source_file": "app/shared/configuration/validate_conf.go",
-                "destination_file": "app/shared/configuration/validate_conf.go"
-            },
-            {
                 "source_file": "main.go",
                 "destination_file": "main.go"
             },
