@@ -24,21 +24,26 @@ import (
 // NewGRPCOpenObserveTraceProvider configures the trace provider for OpenObserve.
 func OpenObserveGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
-	client := otlptracegrpc.NewClient(
-		otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")),
-		otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()),
-		otlptracegrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
-			ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
-			opts ...grpc.CallOption) error {
-			md := metadata.New(map[string]string{
-				"Authorization": env.Get("OPENOBSERVE_AUTHORIZATION"),
-				"organization":  env.Get("OPENOBSERVE_ORGANIZATION"),
-				"stream-name":   env.Get("OPENOBSERVE_STREAM_NAME"),
-			})
-			ctx = metadata.NewOutgoingContext(ctx, md)
-			return invoker(ctx, method, req, reply, cc, opts...)
-		})),
-	)
+
+	var exporterOpts []otlptracegrpc.Option
+
+	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")))
+	if env.Get("OTEL_EXPORTER_OTLP_INSECURE") == "true" {
+		exporterOpts = append(exporterOpts, otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()))
+	}
+	exporterOpts = append(exporterOpts, otlptracegrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
+		ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
+		opts ...grpc.CallOption) error {
+		md := metadata.New(map[string]string{
+			"Authorization": env.Get("OPENOBSERVE_AUTHORIZATION"),
+			"organization":  env.Get("OPENOBSERVE_ORGANIZATION"),
+			"stream-name":   env.Get("OPENOBSERVE_STREAM_NAME"),
+		})
+		ctx = metadata.NewOutgoingContext(ctx, md)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	})))
+
+	client := otlptracegrpc.NewClient(exporterOpts...)
 
 	exporter, err := otlptrace.New(ctx, client)
 	if err != nil {

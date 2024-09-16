@@ -25,22 +25,22 @@ import (
 func OpenObserveGRPCLogProvider(env configuration.EnvLoader) (*slog.Logger, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	// Configure the exporter options
-	exporterOpts := []otlploggrpc.Option{
-		otlploggrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")),
-		otlploggrpc.WithTLSCredentials(insecure.NewCredentials()),
-		otlploggrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
-			ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
-			opts ...grpc.CallOption) error {
-			md := metadata.New(map[string]string{
-				"Authorization": env.Get("OPENOBSERVE_AUTHORIZATION"),
-				"organization":  env.Get("OPENOBSERVE_ORGANIZATION"),
-				"stream-name":   env.Get("OPENOBSERVE_STREAM_NAME"),
-			})
-			ctx = metadata.NewOutgoingContext(ctx, md)
-			return invoker(ctx, method, req, reply, cc, opts...)
-		})),
+	var exporterOpts []otlploggrpc.Option
+	exporterOpts = append(exporterOpts, otlploggrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")))
+	if env.Get("OTEL_EXPORTER_OTLP_INSECURE") == "true" {
+		exporterOpts = append(exporterOpts, otlploggrpc.WithTLSCredentials(insecure.NewCredentials()))
 	}
+	exporterOpts = append(exporterOpts, otlploggrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
+		ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
+		opts ...grpc.CallOption) error {
+		md := metadata.New(map[string]string{
+			"Authorization": env.Get("OPENOBSERVE_AUTHORIZATION"),
+			"organization":  env.Get("OPENOBSERVE_ORGANIZATION"),
+			"stream-name":   env.Get("OPENOBSERVE_STREAM_NAME"),
+		})
+		ctx = metadata.NewOutgoingContext(ctx, md)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	})))
 
 	// Create the exporter
 	exporter, err := otlploggrpc.New(ctx, exporterOpts...)

@@ -16,12 +16,21 @@ import (
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 	"go.opentelemetry.io/otel/trace"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // NewTraceProvider configures a basic trace provider for DataDog.
 func DatadogGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
-	client := otlptracegrpc.NewClient()
+
+	exporterOpts := []otlptracegrpc.Option{}
+	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")))
+	if env.Get("OTEL_EXPORTER_OTLP_INSECURE") == "true" {
+		exporterOpts = append(exporterOpts, otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()))
+	}
+	client := otlptracegrpc.NewClient(
+		exporterOpts...,
+	)
 	exporter, err := otlptrace.New(ctx, client)
 	if err != nil {
 		cancel()
