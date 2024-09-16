@@ -3,10 +3,6 @@
     "base_template": {
        "folders": [
             {
-                "source_dir": "app/shared/systemerr",
-                "destination_dir": "app/shared/systemerr"
-            },
-            {
                 "source_dir": "app/shared/constants",
                 "destination_dir": "app/shared/constants"
             }

@@ -2,7 +2,6 @@ package gcppublisher
 
 import (
 	"archetype/app/shared/infrastructure/gcppubsub"
-	"archetype/app/shared/systemerr"
 	"context"
 	"encoding/json"
 
@@ -40,7 +39,7 @@ func NewPublishEvent(c *pubsub.Client) INewPublishEvent {
 		_, err = result.Get(ctx)
 
 		if err != nil {
-			return systemerr.PUBSUB_BROKER_ERROR
+			return err
 		}
 
 		return nil
