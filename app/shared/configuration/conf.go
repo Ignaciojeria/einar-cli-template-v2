@@ -23,6 +23,7 @@ func NewConf(env EnvLoader) (Conf, error) {
 		envLoader:         env,
 		PORT:              env.Get("PORT"),
 		VERSION:           env.Get(constants.Version),
+		ENVIRONMENT:       env.Get("ENVIRONMENT"),
 		PROJECT_NAME:      env.Get("PROJECT_NAME"),
 		GOOGLE_PROJECT_ID: env.Get("GOOGLE_PROJECT_ID"),
 	}

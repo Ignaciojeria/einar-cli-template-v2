@@ -11,7 +11,7 @@ import (
 func init() {
 	ioc.Registry(
 		newTraceProvider,
-		configuration.NewEnvLoader,
+		configuration.NewConf,
 	)
 }
 
