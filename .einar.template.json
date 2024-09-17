@@ -851,6 +851,16 @@
                     "ioc_discovery":true
                 },
                 {
+                    "source_file": "app/shared/infrastructure/observability/strategy/datadog_grpc_log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/constants.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
                     "source_file": "app/shared/infrastructure/observability/log_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
