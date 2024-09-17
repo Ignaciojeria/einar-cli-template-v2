@@ -11,18 +11,15 @@ import (
 	"time"
 
 	"go.opentelemetry.io/contrib/bridges/otelslog"
+	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc"
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
-
-	"go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/metadata"
 )
 
 // newGRPCOpenObserveLoggerProvider configures the logger provider for OpenObserve.
-func OpenObserveGRPCLogProvider(conf configuration.Conf) (*slog.Logger, error) {
+func DatadogGRPCLogProvider(conf configuration.Conf) (*slog.Logger, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	var exporterOpts []otlploggrpc.Option
@@ -30,18 +27,6 @@ func OpenObserveGRPCLogProvider(conf configuration.Conf) (*slog.Logger, error) {
 	if conf.LoadFromSystem(OTEL_EXPORTER_OTLP_INSECURE) == "true" {
 		exporterOpts = append(exporterOpts, otlploggrpc.WithTLSCredentials(insecure.NewCredentials()))
 	}
-	exporterOpts = append(exporterOpts, otlploggrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
-		ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
-		opts ...grpc.CallOption) error {
-		md := metadata.New(map[string]string{
-			"Authorization": conf.LoadFromSystem(OPENOBSERVE_AUTHORIZATION),
-			"organization":  conf.LoadFromSystem(OPENOBSERVE_ORGANIZATION),
-			"stream-name":   conf.LoadFromSystem(OPENOBSERVE_STREAM_NAME),
-		})
-		ctx = metadata.NewOutgoingContext(ctx, md)
-		return invoker(ctx, method, req, reply, cc, opts...)
-	})))
-
 	// Create the exporter
 	exporter, err := otlploggrpc.New(ctx, exporterOpts...)
 	if err != nil {
@@ -80,11 +65,13 @@ func OpenObserveGRPCLogProvider(conf configuration.Conf) (*slog.Logger, error) {
 		cancel()
 	}()
 
-	// Create the slog.Logger using the otelslog bridge
-	logger := otelslog.NewLogger(
-		"openobserve",
-		otelslog.WithLoggerProvider(loggerProvider),
-	)
+	datadogHandler := newDatadogHandler(otelslog.NewHandler(
+		"datadog",
+		otelslog.WithLoggerProvider(loggerProvider)))
 
-	return logger, nil
+	return slog.New(datadogHandler).With(
+		slog.String(ddEnvKey, conf.ENVIRONMENT),
+		slog.String(ddVersionKey, conf.VERSION),
+		slog.String(ddServiceKey, conf.PROJECT_NAME),
+	), nil
 }

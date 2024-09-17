@@ -16,15 +16,15 @@ func init() {
 }
 
 // RegisterTraceProvider determines whether to use OpenObserve, Datadog or non provider based on the existing environment variables.
-func newTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+func newTraceProvider(conf configuration.Conf) (trace.Tracer, error) {
 	// Get the observability strategy
-	observabilityStrategyKey := env.Get("OBSERVABILITY_STRATEGY")
+	observabilityStrategyKey := conf.LoadFromSystem(strategy.OBSERVABILITY_STRATEGY)
 	switch observabilityStrategyKey {
 	case "openobserve":
-		return strategy.OpenObserveGRPCTraceProvider(env)
+		return strategy.OpenObserveGRPCTraceProvider(conf)
 	case "datadog":
-		return strategy.DatadogGRPCTraceProvider(env)
+		return strategy.DatadogGRPCTraceProvider(conf)
 	default:
-		return strategy.NoOpTraceProvider(env)
+		return strategy.NoOpTraceProvider(conf)
 	}
 }

@@ -11,19 +11,19 @@ import (
 func init() {
 	ioc.Registry(
 		newLoggerProvider,
-		configuration.NewEnvLoader,
+		configuration.NewConf,
 	)
 }
 
-func newLoggerProvider(env configuration.EnvLoader) (*slog.Logger, error) {
+func newLoggerProvider(conf configuration.Conf) (*slog.Logger, error) {
 	// Get the observability strategy
-	observabilityStrategyKey := env.Get("OBSERVABILITY_STRATEGY")
+	observabilityStrategyKey := conf.LoadFromSystem(strategy.OBSERVABILITY_STRATEGY)
 	switch observabilityStrategyKey {
 	case "openobserve":
-		return strategy.OpenObserveGRPCLogProvider(env)
+		return strategy.OpenObserveGRPCLogProvider(conf)
 	case "datadog":
-		return strategy.DatadogStdoutLogProvider(env), nil
+		return strategy.DatadogGRPCLogProvider(conf)
 	default:
-		return strategy.NoOpStdoutLogProvider(env), nil
+		return strategy.NoOpStdoutLogProvider(conf), nil
 	}
 }

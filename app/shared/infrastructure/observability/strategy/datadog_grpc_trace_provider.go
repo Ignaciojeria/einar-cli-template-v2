@@ -20,12 +20,13 @@ import (
 )
 
 // NewTraceProvider configures a basic trace provider for DataDog.
-func DatadogGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+func DatadogGRPCTraceProvider(conf configuration.Conf) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	exporterOpts := []otlptracegrpc.Option{}
-	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")))
-	if env.Get("OTEL_EXPORTER_OTLP_INSECURE") == "true" {
+
+	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(conf.LoadFromSystem(OTEL_EXPORTER_OTLP_ENDPOINT)))
+	if conf.LoadFromSystem(OTEL_EXPORTER_OTLP_INSECURE) == "true" {
 		exporterOpts = append(exporterOpts, otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()))
 	}
 	client := otlptracegrpc.NewClient(
@@ -40,8 +41,8 @@ func DatadogGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error)
 		tracesdk.WithBatcher(exporter),
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(env.Get("PROJECT_NAME")),
-			semconv.DeploymentEnvironmentKey.String(env.Get("ENVIRONMENT")),
+			semconv.ServiceNameKey.String(conf.PROJECT_NAME),
+			semconv.DeploymentEnvironmentKey.String(conf.ENVIRONMENT),
 		)),
 	)
 	otel.SetTracerProvider(tp)

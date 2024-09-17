@@ -16,12 +16,12 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func NoOpTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+func NoOpTraceProvider(conf configuration.Conf) (trace.Tracer, error) {
 	tp := tracesdk.NewTracerProvider(
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(env.Get("PROJECT_NAME")),
-			semconv.DeploymentEnvironmentKey.String(env.Get("ENVIRONMENT")),
+			semconv.ServiceNameKey.String(conf.PROJECT_NAME),
+			semconv.DeploymentEnvironmentKey.String(conf.ENVIRONMENT),
 		)),
 	)
 

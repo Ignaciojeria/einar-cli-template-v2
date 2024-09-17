@@ -7,10 +7,11 @@ import (
 )
 
 type Conf struct {
+	envLoader         EnvLoader
 	PORT              string `required:"true"`
 	VERSION           string `required:"true"`
-	ENVIRONMENT       string `required:"false"`
-	PROJECT_NAME      string `required:"false"`
+	ENVIRONMENT       string `required:"true"`
+	PROJECT_NAME      string `required:"true"`
 	GOOGLE_PROJECT_ID string `required:"false"`
 }
 
@@ -19,6 +20,7 @@ func init() {
 }
 func NewConf(env EnvLoader) (Conf, error) {
 	conf := Conf{
+		envLoader:         env,
 		PORT:              env.Get("PORT"),
 		VERSION:           env.Get(constants.Version),
 		PROJECT_NAME:      env.Get("PROJECT_NAME"),
@@ -28,4 +30,8 @@ func NewConf(env EnvLoader) (Conf, error) {
 		conf.PORT = "8080"
 	}
 	return validateConfig(conf)
+}
+
+func (c Conf) LoadFromSystem(key string) string {
+	return c.envLoader.Get(key)
 }

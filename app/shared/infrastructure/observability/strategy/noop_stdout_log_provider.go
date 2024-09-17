@@ -8,10 +8,10 @@ import (
 	otelslogjson "github.com/go-slog/otelslog"
 )
 
-func NoOpStdoutLogProvider(env configuration.EnvLoader) *slog.Logger {
+func NoOpStdoutLogProvider(conf configuration.Conf) *slog.Logger {
 	return slog.New(otelslogjson.NewHandler(slog.NewJSONHandler(os.Stdout, nil))).With(
-		slog.String("env", env.Get("ENVIRONMENT")),
-		slog.String("version", env.Get("VERSION")),
-		slog.String("service", env.Get("PROJECT_NAME")),
+		slog.String("env", conf.ENVIRONMENT),
+		slog.String("version", conf.VERSION),
+		slog.String("service", conf.PROJECT_NAME),
 	)
 }

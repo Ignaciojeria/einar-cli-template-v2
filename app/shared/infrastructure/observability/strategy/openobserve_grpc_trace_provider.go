@@ -22,22 +22,22 @@ import (
 )
 
 // NewGRPCOpenObserveTraceProvider configures the trace provider for OpenObserve.
-func OpenObserveGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, error) {
+func OpenObserveGRPCTraceProvider(conf configuration.Conf) (trace.Tracer, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	var exporterOpts []otlptracegrpc.Option
 
-	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(env.Get("OTEL_EXPORTER_OTLP_ENDPOINT")))
-	if env.Get("OTEL_EXPORTER_OTLP_INSECURE") == "true" {
+	exporterOpts = append(exporterOpts, otlptracegrpc.WithEndpoint(conf.LoadFromSystem(OTEL_EXPORTER_OTLP_ENDPOINT)))
+	if conf.LoadFromSystem(OTEL_EXPORTER_OTLP_INSECURE) == "true" {
 		exporterOpts = append(exporterOpts, otlptracegrpc.WithTLSCredentials(insecure.NewCredentials()))
 	}
 	exporterOpts = append(exporterOpts, otlptracegrpc.WithDialOption(grpc.WithUnaryInterceptor(func(
 		ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker,
 		opts ...grpc.CallOption) error {
 		md := metadata.New(map[string]string{
-			"Authorization": env.Get("OPENOBSERVE_AUTHORIZATION"),
-			"organization":  env.Get("OPENOBSERVE_ORGANIZATION"),
-			"stream-name":   env.Get("OPENOBSERVE_STREAM_NAME"),
+			"Authorization": conf.LoadFromSystem(OPENOBSERVE_AUTHORIZATION),
+			"organization":  conf.LoadFromSystem(OPENOBSERVE_ORGANIZATION),
+			"stream-name":   conf.LoadFromSystem(OPENOBSERVE_STREAM_NAME),
 		})
 		ctx = metadata.NewOutgoingContext(ctx, md)
 		return invoker(ctx, method, req, reply, cc, opts...)
@@ -55,8 +55,8 @@ func OpenObserveGRPCTraceProvider(env configuration.EnvLoader) (trace.Tracer, er
 		tracesdk.WithBatcher(exporter),
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(env.Get("PROJECT_NAME")),
-			semconv.DeploymentEnvironmentKey.String(env.Get("ENVIRONMENT")),
+			semconv.ServiceNameKey.String(conf.PROJECT_NAME),
+			semconv.DeploymentEnvironmentKey.String(conf.ENVIRONMENT),
 		)),
 	)
 
