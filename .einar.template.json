@@ -816,7 +816,22 @@
             "depends_on":[],
             "files": [
                 {
+                    "source_file": "app/shared/infrastructure/observability/log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                },
+                {
                     "source_file": "app/shared/infrastructure/observability/trace_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/meter_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/observability.go",
                     "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
                 },
@@ -832,6 +847,16 @@
                 },
                 {
                     "source_file": "app/shared/infrastructure/observability/strategy/noop_stdout_log_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/noop_meter_provider.go",
+                    "destination_dir": "app/shared/infrastructure/observability/strategy",
+                    "ioc_discovery":true
+                },
+                {
+                    "source_file": "app/shared/infrastructure/observability/strategy/openobserve_grpc_meter_provider.go",
                     "destination_dir": "app/shared/infrastructure/observability/strategy",
                     "ioc_discovery":true
                 },
@@ -858,16 +883,6 @@
                 {
                     "source_file": "app/shared/infrastructure/observability/strategy/constants.go",
                     "destination_dir": "app/shared/infrastructure/observability/strategy",
-                    "ioc_discovery":true
-                },
-                {
-                    "source_file": "app/shared/infrastructure/observability/log_provider.go",
-                    "destination_dir": "app/shared/infrastructure/observability",
-                    "ioc_discovery":true
-                },
-                {
-                    "source_file": "app/shared/infrastructure/observability/observability.go",
-                    "destination_dir": "app/shared/infrastructure/observability",
                     "ioc_discovery":true
                 }
             ]
