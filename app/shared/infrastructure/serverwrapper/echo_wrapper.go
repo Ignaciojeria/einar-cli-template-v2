@@ -2,6 +2,7 @@ package serverwrapper
 
 import (
 	"archetype/app/shared/configuration"
+	"archetype/app/shared/validator"
 	"context"
 	"fmt"
 	"log"
@@ -11,7 +12,6 @@ import (
 	"time"
 
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
-	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
@@ -25,13 +25,15 @@ func init() {
 	ioc.Registry(
 		NewEchoWrapper,
 		echo.New,
-		configuration.NewConf)
+		configuration.NewConf,
+		validator.NewValidator)
 }
 
 func NewEchoWrapper(
 	e *echo.Echo,
-	c configuration.Conf) EchoWrapper {
-	e.Validator = &Validator{validator: validator.New()}
+	c configuration.Conf,
+	validator *validator.Validator) EchoWrapper {
+	e.Validator = validator
 	ctx, cancel := context.WithCancel(context.Background())
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
@@ -72,19 +74,4 @@ func (s EchoWrapper) printRoutes() {
 	for _, route := range routes {
 		log.Printf("Method: %s, Path: %s, Name: %s\n", route.Method, route.Path, route.Name)
 	}
-}
-
-type Validator struct {
-	validator *validator.Validate
-}
-
-func (cv *Validator) Validate(i interface{}) error {
-	return cv.validator.Struct(i)
-}
-
-func init() {
-	ioc.Registry(NewValidator)
-}
-func NewValidator() *Validator {
-	return &Validator{validator: validator.New()}
 }
