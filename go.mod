@@ -18,7 +18,7 @@ require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/nats-io/nats-server/v2 v2.10.18
 	github.com/nats-io/nats.go v1.36.0
-	github.com/openziti/zrok v0.4.38
+	github.com/openziti/zrok v0.4.40
 	github.com/qri-io/jsonschema v0.2.1
 	go.opentelemetry.io/contrib/bridges/otelslog v0.5.0
 	go.opentelemetry.io/otel v1.30.0
@@ -122,14 +122,14 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
-	github.com/openziti/channel/v2 v2.0.128 // indirect
-	github.com/openziti/edge-api v0.26.16 // indirect
-	github.com/openziti/foundation/v2 v2.0.42 // indirect
-	github.com/openziti/identity v1.0.75 // indirect
-	github.com/openziti/metrics v1.2.51 // indirect
-	github.com/openziti/sdk-golang v0.23.22 // indirect
-	github.com/openziti/secretstream v0.1.19 // indirect
-	github.com/openziti/transport/v2 v2.0.131 // indirect
+	github.com/openziti/channel/v2 v2.0.136 // indirect
+	github.com/openziti/edge-api v0.26.23 // indirect
+	github.com/openziti/foundation/v2 v2.0.47 // indirect
+	github.com/openziti/identity v1.0.81 // indirect
+	github.com/openziti/metrics v1.2.56 // indirect
+	github.com/openziti/sdk-golang v0.23.40 // indirect
+	github.com/openziti/secretstream v0.1.21 // indirect
+	github.com/openziti/transport/v2 v2.0.138 // indirect
 	github.com/orcaman/concurrent-map/v2 v2.0.1 // indirect
 	github.com/parallaxsecond/parsec-client-go v0.0.0-20221025095442-f0a77d263cf9 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
@@ -137,7 +137,7 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/qri-io/jsonpointer v0.1.1 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
-	github.com/shirou/gopsutil/v3 v3.24.3 // indirect
+	github.com/shirou/gopsutil/v3 v3.24.5 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spacemonkeygo/monkit/v3 v3.0.22 // indirect
@@ -150,7 +150,7 @@ require (
 	github.com/zeebo/blake3 v0.2.3 // indirect
 	github.com/zeebo/errs v1.3.0 // indirect
 	github.com/zitadel/oidc/v2 v2.12.0 // indirect
-	go.mongodb.org/mongo-driver v1.14.0 // indirect
+	go.mongodb.org/mongo-driver v1.16.0 // indirect
 	go.mozilla.org/pkcs7 v0.0.0-20210826202110-33d05740a352 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
