@@ -33,7 +33,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.30.0
 	golang.ngrok.com/ngrok v1.9.1
 	google.golang.org/api v0.168.0
-	google.golang.org/grpc v1.66.1
+	google.golang.org/grpc v1.67.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.10
 	gorm.io/plugin/opentelemetry v0.1.4
@@ -43,7 +43,7 @@ require (
 require (
 	cloud.google.com/go v0.112.1 // indirect
 	cloud.google.com/go/ai v0.3.0 // indirect
-	cloud.google.com/go/compute/metadata v0.3.0 // indirect
+	cloud.google.com/go/compute/metadata v0.5.0 // indirect
 	cloud.google.com/go/iam v1.1.6 // indirect
 	cloud.google.com/go/longrunning v0.5.5 // indirect
 	cloud.google.com/go/storage v1.38.0 // indirect
