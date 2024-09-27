@@ -10,7 +10,7 @@ require (
 	github.com/Ignaciojeria/einar-ioc/v2 v2.4.0
 	github.com/MarceloPetrucio/go-scalar-api-reference v0.0.0-20240521013641-ce5d2efe0e06
 	github.com/go-playground/validator/v10 v10.22.0
-	github.com/go-resty/resty/v2 v2.13.1
+	github.com/go-resty/resty/v2 v2.15.3
 	github.com/go-slog/otelslog v0.1.0
 	github.com/google/generative-ai-go v0.10.0
 	github.com/hellofresh/health-go/v5 v5.5.3
@@ -169,7 +169,7 @@ require (
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/term v0.24.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
-	golang.org/x/time v0.5.0 // indirect
+	golang.org/x/time v0.6.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240903143218-8af14fe29dc1 // indirect
