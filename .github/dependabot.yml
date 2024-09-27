@@ -6,4 +6,8 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "deps"
-    open-pull-requests-limit: 5 
+    open-pull-requests-limit: 5
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
