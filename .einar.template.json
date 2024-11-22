@@ -75,6 +75,25 @@
             }]
         },
         {
+            "kind":"get-controller-fuego",
+            "adapter_type":"inbound",
+            "command":"einar generate get-controller-fuego ${operation_name}",
+            "depends_on":["fuego"],
+            "files": [{
+                "source_file": "app/adapter/in/fuegoapi/get.go",
+                "destination_dir": "app/adapter/in/fuegoapi",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplateGet",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
             "kind":"post-controller",
             "adapter_type":"inbound",
             "command":"einar generate post-controller ${operation_name}",
@@ -914,8 +933,8 @@
             "depends_on":[],
             "files": [
                 {
-                    "source_file": "app/shared/infrastructure/fuego/server.go",
-                    "destination_dir": "app/shared/infrastructure/fuego",
+                    "source_file": "app/shared/infrastructure/fuegoserver/server.go",
+                    "destination_dir": "app/shared/infrastructure/fuegoserver",
                     "ioc_discovery":true
                 }
             ]
