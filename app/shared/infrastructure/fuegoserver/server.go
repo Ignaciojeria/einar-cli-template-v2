@@ -1,4 +1,4 @@
-package fuego
+package fuegoserver
 
 import (
 	"archetype/app/shared/configuration"
@@ -9,20 +9,20 @@ import (
 )
 
 func init() {
-	ioc.Registry(NewFuegoServer)
-	ioc.Registry(Healt, NewFuegoServer, configuration.NewConf)
-	ioc.RegistryAtEnd(StartAtEnd, NewFuegoServer)
+	ioc.Registry(New)
+	ioc.Registry(healt, New, configuration.NewConf)
+	ioc.RegistryAtEnd(startAtEnd, New)
 }
 
-func NewFuegoServer() *fuego.Server {
+func New() *fuego.Server {
 	return fuego.NewServer()
 }
 
-func StartAtEnd(e *fuego.Server) error {
+func startAtEnd(e *fuego.Server) error {
 	return e.Run()
 }
 
-func Healt(s *fuego.Server, c configuration.Conf) error {
+func healt(s *fuego.Server, c configuration.Conf) error {
 	h, err := health.New(
 		health.WithComponent(health.Component{
 			Name:    c.PROJECT_NAME,
