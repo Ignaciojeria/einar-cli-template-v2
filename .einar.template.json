@@ -94,6 +94,82 @@
             }]
         },
         {
+            "kind":"post-controller-fuego",
+            "adapter_type":"inbound",
+            "command":"einar generate post-controller-fuego ${operation_name}",
+            "depends_on":["fuego"],
+            "files": [{
+                "source_file": "app/adapter/in/fuegoapi/post.go",
+                "destination_dir": "app/adapter/in/fuegoapi",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplatePost",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"patch-controller-fuego",
+            "adapter_type":"inbound",
+            "command":"einar generate patch-controller-fuego ${operation_name}",
+            "depends_on":["fuego"],
+            "files": [{
+                "source_file": "app/adapter/in/fuegoapi/patch.go",
+                "destination_dir": "app/adapter/in/fuegoapi",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplatePatch",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"put-controller-fuego",
+            "adapter_type":"inbound",
+            "command":"einar generate put-controller-fuego ${operation_name}",
+            "depends_on":["fuego"],
+            "files": [{
+                "source_file": "app/adapter/in/fuegoapi/put.go",
+                "destination_dir": "app/adapter/in/fuegoapi",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplatePut",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
+            "kind":"delete-controller-fuego",
+            "adapter_type":"inbound",
+            "command":"einar generate delete-controller-fuego ${operation_name}",
+            "depends_on":["fuego"],
+            "files": [{
+                "source_file": "app/adapter/in/fuegoapi/delete.go",
+                "destination_dir": "app/adapter/in/fuegoapi",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"camelCase",
+                        "name": "newTemplateDelete",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }]
+        },
+        {
             "kind":"post-controller",
             "adapter_type":"inbound",
             "command":"einar generate post-controller ${operation_name}",
