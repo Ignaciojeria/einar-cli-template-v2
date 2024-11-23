@@ -18,5 +18,5 @@ func newTemplateGet(s *fuego.Server) {
 			return "unimplemented", err
 		}
 		return body, nil
-	}, option.Summary("newTemplateDelete"))
+	}, option.Summary("newTemplateGet"))
 }
