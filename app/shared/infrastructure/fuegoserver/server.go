@@ -5,12 +5,13 @@ import (
 
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
 	"github.com/go-fuego/fuego"
+	"github.com/go-fuego/fuego/option"
 	"github.com/hellofresh/health-go/v5"
 )
 
 func init() {
 	ioc.Registry(New)
-	ioc.Registry(healt, New, configuration.NewConf)
+	ioc.Registry(healthCheck, New, configuration.NewConf)
 	ioc.RegistryAtEnd(startAtEnd, New)
 }
 
@@ -22,7 +23,7 @@ func startAtEnd(e *fuego.Server) error {
 	return e.Run()
 }
 
-func healt(s *fuego.Server, c configuration.Conf) error {
+func healthCheck(s *fuego.Server, c configuration.Conf) error {
 	h, err := health.New(
 		health.WithComponent(health.Component{
 			Name:    c.PROJECT_NAME,
@@ -31,6 +32,9 @@ func healt(s *fuego.Server, c configuration.Conf) error {
 	if err != nil {
 		return err
 	}
-	fuego.GetStd(s, "/health", h.Handler().ServeHTTP)
+	fuego.GetStd(s,
+		"/health",
+		h.Handler().ServeHTTP,
+		option.Summary("healthCheck"))
 	return nil
 }

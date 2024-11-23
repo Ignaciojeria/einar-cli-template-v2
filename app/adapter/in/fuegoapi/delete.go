@@ -5,6 +5,7 @@ import (
 
 	ioc "github.com/Ignaciojeria/einar-ioc/v2"
 	"github.com/go-fuego/fuego"
+	"github.com/go-fuego/fuego/option"
 )
 
 func init() {
@@ -17,5 +18,5 @@ func newTemplateDelete(s *fuego.Server) {
 			return "unimplemented", err
 		}
 		return body, nil
-	})
+	}, option.Summary("newTemplateDelete"))
 }
