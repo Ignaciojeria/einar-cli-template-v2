@@ -1002,18 +1002,6 @@
                     "destination_dir": "app/shared/validator"
                 }
             ]
-        },
-        {
-            "name":"fuego",
-            "unique":"http-server",
-            "depends_on":[],
-            "files": [
-                {
-                    "source_file": "app/shared/infrastructure/fuegoserver/server.go",
-                    "destination_dir": "app/shared/infrastructure/fuegoserver",
-                    "ioc_discovery":true
-                }
-            ]
         }
     ]
 }
