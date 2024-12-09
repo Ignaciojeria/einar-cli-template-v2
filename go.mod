@@ -5,18 +5,18 @@ toolchain go1.23.3
 
 require (
 	cloud.google.com/go/firestore v1.17.0
-	cloud.google.com/go/pubsub v1.45.1
+	cloud.google.com/go/pubsub v1.45.3
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/Ignaciojeria/einar-contracts v1.3.0
+	github.com/Ignaciojeria/einar-contracts v1.4.0
 	github.com/Ignaciojeria/einar-ioc/v2 v2.4.0
 	github.com/MarceloPetrucio/go-scalar-api-reference v0.0.0-20240521013641-ce5d2efe0e06
 	github.com/go-playground/validator/v10 v10.23.0
-	github.com/go-resty/resty/v2 v2.16.0
+	github.com/go-resty/resty/v2 v2.16.2
 	github.com/go-slog/otelslog v0.3.0
-	github.com/google/generative-ai-go v0.18.0
+	github.com/google/generative-ai-go v0.19.0
 	github.com/hellofresh/health-go/v5 v5.5.3
 	github.com/joho/godotenv v1.5.1
-	github.com/labstack/echo/v4 v4.12.0
+	github.com/labstack/echo/v4 v4.13.0
 	github.com/nats-io/nats-server/v2 v2.10.22
 	github.com/nats-io/nats.go v1.37.0
 	github.com/openziti/zrok v0.4.44
@@ -33,22 +33,22 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.32.0
 	go.opentelemetry.io/otel/trace v1.32.0
 	golang.ngrok.com/ngrok v1.11.0
-	google.golang.org/api v0.203.0
-	google.golang.org/grpc v1.68.0
-	gorm.io/driver/postgres v1.5.9
+	google.golang.org/api v0.210.0
+	google.golang.org/grpc v1.68.1
+	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
-	gorm.io/plugin/opentelemetry v0.1.8
+	gorm.io/plugin/opentelemetry v0.1.10
 	storj.io/uplink v1.13.1
 )
 
 require (
 	cloud.google.com/go v0.116.0 // indirect
 	cloud.google.com/go/ai v0.8.0 // indirect
-	cloud.google.com/go/auth v0.9.9 // indirect
-	cloud.google.com/go/auth/oauth2adapt v0.2.4 // indirect
+	cloud.google.com/go/auth v0.11.0 // indirect
+	cloud.google.com/go/auth/oauth2adapt v0.2.6 // indirect
 	cloud.google.com/go/compute/metadata v0.5.2 // indirect
-	cloud.google.com/go/iam v1.2.1 // indirect
-	cloud.google.com/go/longrunning v0.6.1 // indirect
+	cloud.google.com/go/iam v1.2.2 // indirect
+	cloud.google.com/go/longrunning v0.6.2 // indirect
 	cloud.google.com/go/storage v1.43.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/calebcase/tmpfile v1.0.3 // indirect
@@ -84,7 +84,7 @@ require (
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
-	github.com/googleapis/gax-go/v2 v2.13.0 // indirect
+	github.com/googleapis/gax-go/v2 v2.14.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
@@ -162,20 +162,20 @@ require (
 	go.opentelemetry.io/proto/otlp v1.3.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.ngrok.com/muxado/v2 v2.0.0 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
-	golang.org/x/net v0.30.0 // indirect
-	golang.org/x/oauth2 v0.23.0 // indirect
+	golang.org/x/net v0.31.0 // indirect
+	golang.org/x/oauth2 v0.24.0 // indirect
 	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/term v0.25.0 // indirect
+	golang.org/x/term v0.26.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
-	golang.org/x/time v0.7.0 // indirect
+	golang.org/x/time v0.8.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto v0.0.0-20241015192408-796eee8c2d53 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20241104194629-dd2ea8efbc28 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/genproto v0.0.0-20241118233622-e639e219e697 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20241113202542-65e8d215514f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241118233622-e639e219e697 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/go-jose/go-jose.v2 v2.6.3 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
